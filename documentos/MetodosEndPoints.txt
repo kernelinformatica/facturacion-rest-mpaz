@@ -1,0 +1,27 @@
+Web Service Desarrollo: http://10.0.0.212:8080/facturacionrest/ws/
+End Point: buscaComprobantes
+Metodo:POST:
+URL: http://10.0.0.212:8080/facturacionrest/ws/buscaComprobantes
+Descripcion: Método que devuelve una lista de comprobantes imputados tanto de compras o de ventas
+
+PARAMETROS:
+HeaderParam ("token") = "$2a$10$gBwToCN.hwWBO9ZVEr.QZ.Ti.fcIku1.wKZ6QLG1dWAKwJlNBcKFu" 
+QueryParam("imputados") = "N",
+
+// Estos parameros deben pasarse por el body (atributos del body)
+
+comprobanteModulo: 1, 
+autorizada: "Todas"
+codProductoDesde: null
+codProductoHasta: null
+comprobanteModulo: 1 (es compras)
+comprobanteNumero: 0
+comprobanteTipo: 0
+fechaDesde: "2000-01-01"
+fechaHasta: "2021-05-05"
+idDeposito: 0
+idEstado: 0
+idProducto: 0
+idSisTipoOperacion: 0
+idVendedor: 0
+padCodigo: 0

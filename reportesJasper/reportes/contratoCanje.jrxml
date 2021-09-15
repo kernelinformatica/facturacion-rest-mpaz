@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contratoCanje" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e28d28d-ec55-4ad2-b447-8735626c7cba">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[YGRiRmFjdHVyYWNpb25gLmBQYWRyb25HcmFsYCAsMTUsMTUsOTdjNTZkYTAtNDZhYS00ZGI3LThi
+ZmItMzdkMzc1Yjg2ZjllO2BkYkZhY3R1cmFjaW9uYC5gRmFjdENhYmAgLDIxNCw1MixiN2VmNzY1
+Ny1jM2JmLTRiMzctYTgzNS05ZDAwZWE5MjgxMTk7YGRiRmFjdHVyYWNpb25gLmBGYWN0UGllYCAs
+MTUsOTg1LDgzNDJjZjI0LTExZWMtNDhjOS05ZGM3LWFmOTVlYjhjNGI4YTtgZGJGYWN0dXJhY2lv
+bmAuYEZhY3REZXRhbGxlYCAsMTUsMzYwLDliZjBkYmQxLTAzODctNDcyMi1iOWYxLTJkMzM1NjRm
+ZTgxYTs=]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dbFacturacion"/>
+	<parameter name="idFactCab" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT `dbFacturacion`.`FactDetalle`.importe AS importeProd,
+	`dbFacturacion`.`FactDetalle`.cantidad AS cantidad,
+	`dbFacturacion`.`FactDetalle`.detalle AS detalleProd,
+	`dbFacturacion`.`PadronGral`.localidad AS localidad,
+	`dbFacturacion`.`PadronGral`.domicilio AS domicilio,
+	`dbFacturacion`.`PadronGral`.cuit AS cuit,
+	`dbFacturacion`.`PadronGral`.apellido AS apellido,
+	`dbFacturacion`.`PadronGral`.nombre AS nombre,
+	`dbFacturacion`.`FactCab`.`cotDolar` AS cotDolar,
+	`dbFacturacion`.`FactCab`.`cerealCanje` AS cerealCanje,
+	`dbFacturacion`.`FactCab`.`fechaVto` AS fechaVto,
+	`dbFacturacion`.`FactCab`.`fechaEmision` AS fechaEmision,
+	`dbFacturacion`.`FactCab`.`idPadron` AS padronNro,
+	`dbFacturacion`.`FactCab`.`numeroAfip` AS numeroAfip,
+	`dbFacturacion`.`FactCab`.`idMoneda` AS idMoneda,
+	`dbFacturacion`.`Cereal`.`nombre` AS nombreCereal,
+	`dbFacturacion`.`FactFormaPago`.importe AS importeFacFP
+	FROM `dbFacturacion`.`FactCab`
+	LEFT OUTER JOIN `dbFacturacion`.`PadronGral` ON 
+	 `dbFacturacion`.`FactCab`.`idPadron` = `dbFacturacion`.`PadronGral`.`idPadronGral`
+	INNER JOIN `dbFacturacion`.`FactDetalle` ON 
+	 `dbFacturacion`.`FactCab`.`idFactCab` = `dbFacturacion`.`FactDetalle`.`idFactCab`
+	 LEFT OUTER JOIN `dbFacturacion`.`Cereal` ON 
+	 `dbFacturacion`.`FactCab`.`cerealCanje` = `dbFacturacion`.`Cereal`.`cerealCodigo`
+	 INNER JOIN `dbFacturacion`.`FactFormaPago` ON 
+	 `dbFacturacion`.`FactFormaPago`.`idFactCab` = `dbFacturacion`.`FactCab`.`idFactCab`
+	 WHERE `dbFacturacion`.`FactCab`.`idFactCab` = $P{idFactCab}]]>
+	</queryString>
+	<field name="importeFacFP" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importeFacFP"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactFormaPago"/>
+	</field>
+	<field name="importeProd" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importeProd"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactDetalle"/>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactDetalle"/>
+	</field>
+	<field name="detalleProd" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalleProd"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactDetalle"/>
+	</field>
+	<field name="localidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="localidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="PadronGral"/>
+	</field>
+	<field name="domicilio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="domicilio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="PadronGral"/>
+	</field>
+	<field name="cuit" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cuit"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="PadronGral"/>
+	</field>
+	<field name="apellido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="apellido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="PadronGral"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="PadronGral"/>
+	</field>
+	<field name="cotDolar" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="cotDolar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactCab"/>
+	</field>
+	<field name="cerealCanje" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cerealCanje"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactCab"/>
+	</field>
+	<field name="fechaVto" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fechaVto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactCab"/>
+	</field>
+	<field name="fechaEmision" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fechaEmision"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactCab"/>
+	</field>
+	<field name="padronNro" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="padronNro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactCab"/>
+	</field>
+	<field name="idMoneda" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="idMoneda"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactCab"/>
+	</field>
+	<field name="numeroAfip" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="numeroAfip"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FactCab"/>
+	</field>
+	<field name="nombreCereal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombreCereal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Cereal"/>
+	</field>
+	<variable name="importeDetalleTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{importeProd}]]></variableExpression>
+	</variable>
+	<variable name="importeTotalFP" class="java.math.BigDecimal" resetType="Page" incrementType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{importeFacFP}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="131" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="0" width="540" height="20" uuid="c5a660e8-2827-4a95-97fc-e970b9b0ab6d"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOPERATIVA AGROPECUARIA LTDA. DE MAXIMO PAZ
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="-10" y="40" width="570" height="70" uuid="7a4d92e1-b0ad-4d47-a1bf-c01da258dcd2"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En la localidad de Máximo Paz, Departamento Constitucion, Provincia de Santa Fe, a los " + new SimpleDateFormat("dd/MM/yyyy").format($F{fechaEmision}) + " entre la COOP.AGROP.LTDA DE MAXIMO PAZ, con domicilio en Falucho 820 de la localidad de Máximo Paz, representada en éste acto por Debiase Angel A., DNI 13.672.630, en su caracter de Gerente, en adelante 'LA COOPERATIVA', por una parte y por la otra el/los Sr./es " + $F{apellido} + " " + $F{nombre} + "Tipo/Nro doc (cuit) DNI " + $F{cuit} + " con domicilio en " + $F{domicilio} + " localidad " + $F{localidad} + " en adelante 'EL PRODUCTOR', convienen de comun acuerdo, en celebrar el presente CONTRATO, a regirse por las siguientes cláusulas:"]]></textFieldExpression>
+				<patternExpression><![CDATA["dd/mm/yyyy"]]></patternExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-10" y="110" width="571" height="20" uuid="3696539a-fcc8-42de-8b4b-db929893fd8e"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[PRIMERA: 'LA COOPERATIVA' transfiere en propiedad de 'EL PRODUCTOR', los productos :
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="-10" y="20" width="571" height="20" uuid="62976670-6ca8-48f4-a8ed-198188a690ee"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CONTRATO DE OPERACION PAGO EN ESPECIE A COSECHA Nro: " + $F{numeroAfip}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="-1" width="290" height="15" uuid="7b7311ae-a6c9-4680-8a85-421f63b50c75">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalleProd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="0" width="181" height="15" uuid="33a51934-5cbb-42f6-9fbe-368ce472b6cd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Cantidad: " + $F{cantidad}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="509">
+			<textField>
+				<reportElement x="-10" y="6" width="571" height="21" uuid="e2656229-45e4-49bb-a3cf-1e1fc3e3596b"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Amparados con factura nùmero: " + $F{numeroAfip}.toString()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="-9" y="26" width="569" height="88" uuid="e65ab4bc-ae34-4c7e-ab6e-1335e44eeebb"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["La entrega de los mismos se efectiviza en este acto, sirviendo el presente enunciado de nota de recepcion conforme, amplia y suficiente. 'LA COOPERATIVA' entrega las mercaderias en perfecto estado de conservacion y debidamente acondicionadas, con las especificaciones quimicas, fisicas, fitosanitarias, y demas, garantizadas por el fabricante, siendo el producto destinado a su utilizacion en terrenos agricolas que 'EL PRODUCTOR' explota. La operación financiada al día " + new SimpleDateFormat("dd/MM/yyyy").format($F{fechaVto}) + ", es de pesos " + ($F{idMoneda} == 1 ? $V{importeTotalFP} : $V{importeTotalFP}.multiply($F{cotDolar}).setScale(2, RoundingMode.HALF_UP)) + ", ajustada a valor dolar a la fecha de entrega de los granos especificados en la cláusula segunda. A los fines de la valuación de la factura antes mencionadas el valor del dolar considerado es de (u$s) " + $F{cotDolar}.toString() + " por unidad."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-10" y="116" width="571" height="28" uuid="0d2f3915-24ea-457d-a061-fd01f1007555"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[SEGUNDA: Por su parte, 'EL PRODUCTOR' se compromete a los fines de perfeccionar el presente contrato, a entregar a 'LA COOPERATIVA' en sus instalaciones de acopio, los siguientes granos con las condiciones detalladas:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="-11" y="146" width="571" height="21" uuid="2320b047-150b-4c10-96fc-caa1a1b2cb52"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GRANO Y COSECHA: " + $F{nombreCereal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-10" y="166" width="571" height="18" uuid="455ee80e-5109-40d6-81dc-b4687bf0ff9b"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha máxima de entrega: " + new SimpleDateFormat("dd/MM/yyyy").format($F{fechaVto})]]></textFieldExpression>
+				<patternExpression><![CDATA["dd/mm/yyyy"]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement x="-10" y="184" width="570" height="19" uuid="0c96d675-b2e7-4788-85ec-2d05c1898800"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha máxima de fijación de precio: " + new SimpleDateFormat("dd/MM/yyyy").format($F{fechaVto})]]></textFieldExpression>
+				<patternExpression><![CDATA["dd/mm/yyyy"]]></patternExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="-12" y="281" width="573" height="58" uuid="ff125caf-e658-46f3-a789-60f5d83196eb"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TERCERA: En garantía de las obligaciones contraídas por 'EL PRODUCTOR' en virtud del presente, en este acto suscribe un Pagaré, de u$s " + ($F{idMoneda} == 1 ? $V{importeTotalFP}.divide($F{cotDolar}, 2, RoundingMode.HALF_UP) : $V{importeTotalFP}) + " con vencimiento el " + new SimpleDateFormat("dd/MM/yyyy").format($F{fechaVto}) + ". En caso de incumplimiento total o parcial, de cualquiera de las claúsulas, rescisión o resolución del presente, por cualquier causa, 'EL PRODUCTOR' sin perjuicio de las demás acciones que pudieran corresponder, autoriza expresamente a 'LA COOPERATIVA', a proceder al cobro judicial del mismo."]]></textFieldExpression>
+				<patternExpression><![CDATA["dd/mm/yyyy"]]></patternExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-11" y="203" width="571" height="78" uuid="a653d2af-8a1b-4640-b4a5-c797f5337bee"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[El producto deberá estar en calidad conforme según las disposiciones establecidas por cada grano. En el caso que no lo estuviera, los gastos de secado, zarandeo, ventilación o tratamientos que sean necesarios como así también los fletes y acarreos hasta el lugar de entrega, serán por cuenta exclusiva de 'EL PRODUCTOR'. En tal sentido se obliga a cancelar la suma especificada en el artículo 1ro, mediante entrega de los granos descriptos en la cantidad necesaria para satisfacer la deuda, al día de vencimiento o de fijación, el que fuere anterior. Al precio pizarra del día de la venta, se le deducirán el flete, los gastos de comercialización habituales que cobra 'LA COOPERATIVA', las cargas impositivas vigentes a ese momento, y además costos que se creasen en el futuro para las operaciones primarios de granos.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-12" y="339" width="573" height="40" uuid="751a089e-0085-41b4-b669-8ce4f530d71a"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[CUARTA: A los efectos legales derivados del presente, las partes fijan sus domicilios en los denunciados y se someten a la competencia de los Tribunales Ordinarios de la Cuidad de Rosario, con renuncia expresa a todo otro fuero o jurisdiccion que pudiera corresponderle.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-12" y="379" width="572" height="31" uuid="321ec78e-eb8b-44d0-bfe6-abb14fb1f533"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[LEIDO por las partes, ratifican su contenido y firman dos ejemplares como partes intervinientes de un mismo tenor y a un solo efecto, en el lugar y fecha de su celebración.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-12" y="410" width="240" height="90" uuid="24b78ce6-8629-4062-af02-3f19013a9967"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[
+
+                                                                                                                                                                                                                                           -----------------------------------------------------------------
+p/p COOP. AGROP. LIMITADA DE MAXIMO PAZ
+Angel A. Debiase
+Gerente
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="410" width="249" height="91" uuid="7eb7936f-6436-4d0a-bd0b-478035a7e77b"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[
+
+
+----------------------------------------------------------
+Firma Productor
+Aclaración de Firma]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

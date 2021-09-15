@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>Facturacion Marga Produccion</name><driver>com.mysql.jdbc.Driver</driver><username>root</username><password>alberdi11</password><savePassword>true</savePassword><url>jdbc:mysql://192.168.140.119:3306/dbFacturacion</url><database></database><serverAddress></serverAddress><classpath>E:\Dario\Proyectos\JavaWeb\Librerias-Recursos\mysql-connector-java-5.1.46.jar</classpath></jdbcDataAdapter>

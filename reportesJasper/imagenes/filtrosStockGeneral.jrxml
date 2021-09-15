@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2018-11-13T10:27:46 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="filtrosStockGeneral" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ce3a8601-a83a-4829-9a43-9ebb7a2f26b8">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="fechaHasta" class="java.sql.Date"/>
+	<parameter name="productoDesde" class="java.lang.Integer"/>
+	<parameter name="rubro" class="java.lang.Integer"/>
+	<parameter name="subRubro" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="productoHasta" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[Select 
+Productos.descripcion as descripcionProductoDesde,
+Prod.descripcion as descripcionProductoHasta,
+Rubros.descripcion as descripcionRubro,
+SubRubros.descripcion as descripcionSubRubro
+from Productos
+left join Productos Prod on Prod.idProductos = $P{productoHasta}
+left join Rubros on Rubros.idRubros = $P{rubro} 
+left join SubRubros on SubRubros.idSubRubros = $P{subRubro}
+where Productos.idProductos =  $P{productoDesde}]]>
+	</queryString>
+	<field name="descripcionProductoDesde" class="java.lang.String"/>
+	<field name="descripcionRubro" class="java.lang.String"/>
+	<field name="descripcionSubRubro" class="java.lang.String"/>
+	<field name="descripcionProductoHasta" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="44">
+			<staticText>
+				<reportElement x="360" y="0" width="66" height="20" uuid="c8d31616-6206-4ac8-b5ca-59c95b2e618e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Hasta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20" uuid="bbc7487e-c9a5-4783-817f-4b435ee65847">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto desde:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="23" width="34" height="20" uuid="a6a84b01-bcce-477f-b99f-58b672c5e8a6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rubro:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="43" width="554" height="1" uuid="60075d97-bae5-4626-a6b6-2a0843e56c85"/>
+			</line>
+			<textField pattern="dd/MM/yyy">
+				<reportElement x="426" y="0" width="84" height="20" uuid="4593c293-ac9f-4861-b695-27bd5c41343e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{fechaHasta}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="0" width="80" height="20" uuid="1fda2278-ec5a-4331-9966-c01690889f84"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionProductoDesde}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="160" y="0" width="80" height="20" uuid="8f1c0211-9458-421e-ab5f-10c38932be83">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto hasta:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="240" y="0" width="90" height="20" uuid="71ceed7a-9075-4f52-99a8-33c31f341147"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionProductoHasta}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="34" y="23" width="126" height="20" uuid="69098d00-6bef-4139-810c-aebc62584843"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionRubro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="160" y="23" width="80" height="20" uuid="6b341ab3-3e4f-4653-96da-50c4d173925d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub Rubro:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="240" y="23" width="90" height="20" uuid="3c454062-02db-4cf8-b2e5-6690ff8d0214"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionSubRubro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

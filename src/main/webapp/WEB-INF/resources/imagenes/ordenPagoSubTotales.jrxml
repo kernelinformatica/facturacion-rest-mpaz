@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ordenPagoSubTotales" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="a6360234-fe13-4840-8453-12da960ad7de">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FacturacionDev"/>
+	<parameter name="idOpCab" class="java.lang.Integer"/>
+	<parameter name="moneda" class="java.lang.String"/>
+	<parameter name="bruto" class="java.math.BigDecimal">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+OPPie.idOPPie,
+OPPie.idOPCab,
+OPPie.idImpuesto,
+OPPie.detalle as detallePie,
+OPPie.alicuota,
+OPPie.importeBase,
+OPPie.ImporteImpuesto as importeImpuesto,
+OPPie.numeroRetencion FROM OPPie 
+WHERE OPPie.idOPCab =$P{idOpCab}]]>
+	</queryString>
+	<field name="idOPPie" class="java.lang.String"/>
+	<field name="idImpuesto" class="java.math.BigDecimal"/>
+	<field name="alicuota" class="java.math.BigDecimal"/>
+	<field name="importeBase" class="java.math.BigDecimal"/>
+	<field name="importeImpuesto" class="java.math.BigDecimal"/>
+	<field name="detallePie" class="java.lang.String"/>
+	<variable name="subTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{importeImpuesto}]]></variableExpression>
+	</variable>
+	<variable name="cero" class="java.math.BigDecimal">
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="38">
+			<staticText>
+				<reportElement x="335" y="6" width="98" height="13" uuid="7d799362-b208-41a9-9aa4-caffae519f2f"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUB TOTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="436" y="6" width="78" height="13" uuid="a9f2f5b6-01f7-4286-8550-8c3161e8c376">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bruto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="122" y="25" width="40" height="13" uuid="341c37f5-dbe4-47ae-937b-0d49fee69bb4"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="25" width="40" height="13" uuid="a9d8fd68-0d0f-484e-9646-933afd4c6ed9"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BASE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="4" width="100" height="13" uuid="3928a440-1470-486c-8a42-3cf3500681c3"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detallePie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="4" width="78" height="13" uuid="17ae3868-6d68-4dd0-b4d8-3325d4b47925"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importeImpuesto}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="4" width="40" height="13" uuid="5b24c2cd-2e80-4a92-bece-22ec3a7590bd"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alicuota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="169" y="4" width="50" height="13" uuid="440c0194-d69e-47a2-8288-9c634adf1875">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importeBase}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="85">
+			<staticText>
+				<reportElement x="4" y="6" width="130" height="18" uuid="651d7992-c412-4ce9-8bb5-558259eaa4e1"/>
+				<textElement verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="420" y="6" width="94" height="18" uuid="b0b30937-a87b-4934-ae42-cb18e3abd51d"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{subTotal}.add($P{bruto}).setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="24" width="510" height="60" isPrintWhenDetailOverflows="true" uuid="c92cc201-1fe1-4ac7-9283-8c41395f6da2">
+					<printWhenExpression><![CDATA[]]></printWhenExpression>
+				</reportElement>
+				<text><![CDATA[Recibí conforme
+
+Firma:__________________________________________________________________________]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

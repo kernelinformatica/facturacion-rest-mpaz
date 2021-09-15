@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subTotales" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="a6360234-fe13-4840-8453-12da960ad7de">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FacturacionDev"/>
+	<parameter name="idOpCab" class="java.lang.Integer"/>
+	<parameter name="idCteTipo" class="java.lang.Integer"/>
+	<parameter name="bruto" class="java.math.BigDecimal">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="moneda" class="java.lang.String"/>
+	<parameter name="cotDolar" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[select 
+OPPie.detalle as detallePie,
+OPPie.importeImpuesto as importePie,
+OPPie.alicuota as porcentajePie,
+OPPie.importeBase as baseImponible
+from OPPie
+where OPPie.idOpCab =$P{idOpCab}]]>
+	</queryString>
+	<field name="detallePie" class="java.lang.String"/>
+	<field name="importePie" class="java.math.BigDecimal"/>
+	<field name="porcentajePie" class="java.math.BigDecimal"/>
+	<field name="baseImponible" class="java.math.BigDecimal"/>
+	<variable name="subTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{importePie}]]></variableExpression>
+	</variable>
+	<variable name="cero" class="java.math.BigDecimal">
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="60">
+			<staticText>
+				<reportElement x="2" y="25" width="130" height="13" uuid="7d799362-b208-41a9-9aa4-caffae519f2f"/>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Neto:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="398" y="25" width="30" height="13" uuid="f5db9e54-d875-4cdf-a85a-ad65c0bed726">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{moneda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="25" width="78" height="13" uuid="a9f2f5b6-01f7-4286-8550-8c3161e8c376"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bruto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="1" width="297" height="14" uuid="a7275e94-36e2-44a3-a44a-e77239c891b3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DETALLLE DE SUB TOTALES]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="41" width="510" height="1" uuid="efb3f2f9-dfd1-4957-8b4e-85476a4479a8">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="3" y="21" width="510" height="1" uuid="9657780e-948a-44ec-824d-578f94341059">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="438" y="-388" width="38" height="13" uuid="0e9938f0-f72e-4b70-bf09-954a14911807"/>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="45" width="24" height="13" uuid="f7c6ffa5-4f07-4da0-bdf7-fbd8c4d599e3"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="45" width="38" height="13" uuid="81b8842f-aba1-462c-9561-20de89bb6d3f"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BASE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="1" width="130" height="13" uuid="3928a440-1470-486c-8a42-3cf3500681c3"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detallePie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="2" width="78" height="13" uuid="17ae3868-6d68-4dd0-b4d8-3325d4b47925"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importePie}.negate().setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="398" y="2" width="30" height="13" uuid="16bf0916-8768-4049-9e9e-5465f187ae54"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{moneda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="2" width="30" height="13" uuid="1953a317-9a3d-41db-b525-5834ee2b5f1e"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{porcentajePie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="2" width="48" height="13" uuid="0a496b3e-0536-4389-adcf-f3b20a44e67f"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{importePie}.equals(BigDecimal.ZERO.setScale(3, java.math.RoundingMode.HALF_UP))?
+		BigDecimal.ZERO :
+		$F{baseImponible}.setScale(2, java.math.RoundingMode.HALF_UP)
+)]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="68">
+			<staticText>
+				<reportElement x="2" y="7" width="494" height="53" uuid="c92cc201-1fe1-4ac7-9283-8c41395f6da2">
+					<printWhenExpression><![CDATA[$P{idCteTipo} == 72]]></printWhenExpression>
+				</reportElement>
+				<text><![CDATA[Recibí conforme
+
+Firma:_______________________________________]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
