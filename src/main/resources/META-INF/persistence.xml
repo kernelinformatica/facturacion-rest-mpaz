@@ -97,6 +97,7 @@
     <class>entidades.TiposOpDepositos</class>
     <class>entidades.Usuario</class>
     <class>entidades.UsuarioListaPrecio</class>
+    <class>entidades.FitoStockSybase</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

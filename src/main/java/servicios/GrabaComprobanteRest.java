@@ -2,6 +2,7 @@ package servicios;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.sun.javafx.collections.SortHelper;
 import compra.GrabaFacCompraSybase;
 import datos.AppCodigo;
 import datos.DatosResponse;
@@ -47,6 +48,7 @@ import entidades.FacVentasDolarSybase;
 import entidades.FacVentasDolarSybasePK;
 import entidades.ModeloDetalle;
 import entidades.CtacteCategoria;
+import entidades.FitoStockSybase;
 import entidades.ParametrosFacSybase;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -68,6 +70,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -123,6 +126,7 @@ import persistencia.FacComprasFacade;
 import persistencia.FacComprasSybaseFacade;
 import persistencia.CtacteCategoriaFacade;
 import persistencia.ParametrosFacSybaseFacade;
+import persistencia.FitoStockSybaseFacade;
 import utils.Utils;
 
 /**
@@ -216,6 +220,8 @@ public class GrabaComprobanteRest {
     CerealesFacade cerealesFacade;
     @Inject
     CanjesContratosCerealesFacade canjesContratosCerealesFacade;
+    @Inject
+    FitoStockSybaseFacade fitoStockSybaseFacade;
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
@@ -237,7 +243,7 @@ public class GrabaComprobanteRest {
             // Obtengo el body de la request
             System.out.println("<----- grabaComprobanteRest ----->");
             JsonObject jsonBody = Utils.getJsonObjectFromRequest(request);
-
+            int conta;
             //Obtengo los atributos del body
             //Datos de FactCab
             Integer idCteTipo = (Integer) Utils.getKeyFromJsonObject("idCteTipo", jsonBody, "Integer");
@@ -646,6 +652,7 @@ public class GrabaComprobanteRest {
                 List<FactImputa> listaImputa = new ArrayList<>();
                 List<FactImputa> listaImputaExtra = new ArrayList<>();
                 List<Produmo> listaProdumo = new ArrayList<>();
+                List<Produmo> listaProdumo2 = new ArrayList<>();
                 List<FactPie> listaPie = new ArrayList<>();
                 List<Lote> listaLotes = new ArrayList<>();
                 List<FactFormaPago> listaFormaPago = new ArrayList<>();
@@ -653,11 +660,13 @@ public class GrabaComprobanteRest {
                 //Contador para factDetalle
                 int item = 0;
                 //Recorro el array de grillaArticulos y creo facDetalle para cada articulo
-
+                
+                        
                 for (JsonElement j : grillaArticulos) {
                     //Obtengo los atributos del body
                     Integer idProducto = (Integer) Utils.getKeyFromJsonObject("idProducto", j.getAsJsonObject(), "Integer");
                     String articulo = (String) Utils.getKeyFromJsonObject("articulo", j.getAsJsonObject(), "String");
+                    Integer posicionArticulo = (Integer) Utils.getKeyFromJsonObject("prodIndice", j.getAsJsonObject(), "Integer");
                     BigDecimal pendiente = (BigDecimal) Utils.getKeyFromJsonObject("pendiente", j.getAsJsonObject(), "BigDecimal");
                     BigDecimal precio = (BigDecimal) Utils.getKeyFromJsonObject("precio", j.getAsJsonObject(), "BigDecimal");
                     BigDecimal porCalc = (BigDecimal) Utils.getKeyFromJsonObject("porCalc", j.getAsJsonObject(), "BigDecimal");
@@ -671,6 +680,8 @@ public class GrabaComprobanteRest {
                     String imputacion = (String) Utils.getKeyFromJsonObject("imputacion", j.getAsJsonObject(), "String");
                     Integer idFactDetalleImputa = (Integer) Utils.getKeyFromJsonObject("idFactDetalleImputa", j.getAsJsonObject(), "Integer");
                     BigDecimal importe = (BigDecimal) Utils.getKeyFromJsonObject("importe", j.getAsJsonObject(), "BigDecimal");
+                   
+                    
                     if (importe.intValue() == 0) {
                         System.out.println("da 0 esto " + importe.intValue());
                     } else {
@@ -836,42 +847,50 @@ public class GrabaComprobanteRest {
                     //Pregunto si se graba produmo y empiezo con la transaccion
                     if (produmo && (cteTipo.getIdSisComprobante().getStock().equals(1) || cteTipo.getIdSisComprobante().getStock().equals(2))) {
                         //SisOperacionComprobante soc = sisOperacionComprobanteFacade.findByIdSisComp(user.getIdPerfil().getIdSucursal().getIdEmpresa().getIdEmpresa(), factCab.getIdSisOperacionComprobantes());
-                       // if (soc.getStock().equals(1) || soc.getStock().equals(2)) {
-                            Produmo prod = new Produmo();
-                            if (cteTipo.getSurenu().equals("D")) {
-                                prod.setCantidad(pendiente.negate());
-                            } else {
-                                prod.setCantidad(pendiente);
+                        // if (soc.getStock().equals(1) || soc.getStock().equals(2)) {
+                        Produmo prod = new Produmo();
+                        if (cteTipo.getSurenu().equals("D")) {
+                            prod.setCantidad(pendiente.negate());
+                        } else {
+                            prod.setCantidad(pendiente);
+                        }
+                        prod.setDetalle(articulo);
+                        prod.setIdCteTipo(cteTipo);
+                        prod.setIdDepositos(deposito);
+                        prod.setIdFactDetalle(factDetalle.getIdFactDetalle());
+                        prod.setIdProductos(producto);
+                        if (cteTipo.getIdCteTipo().equals(69)){
+                            // Si es remito de compra grabo la psoicion de la grilla  
+                            // para poder relacionarlos 
+                            if (posicionArticulo == null){
+                                posicionArticulo = 0;
                             }
-                            prod.setDetalle(articulo);
-                            prod.setIdCteTipo(cteTipo);
-                            prod.setIdDepositos(deposito);
-                            prod.setIdFactDetalle(factDetalle.getIdFactDetalle());
-                            prod.setIdProductos(producto);
+                            prod.setItem(posicionArticulo);
+                        }else{
                             prod.setItem(item);
-
-                            CteNumerador cteNumerador = null;
-                            if (idNumero != null) {
-                                cteNumerador = cteNumeradorFacade.find(idNumero);
-                                if (cteNumerador == null) {
-                                    respuesta.setControl(AppCodigo.ERROR, "Error al cargar la factura, no existe el numero de comprobante");
-                                    return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
-                                }
-                                String ptoVenta = String.valueOf(cteNumerador.getIdPtoVenta().getPtoVenta());
-                                String numeroVentaFormat = String.format("%08d", cteNumerador.getNumerador());
-                                String concatenado = ptoVenta.concat(numeroVentaFormat);
-                                prod.setNumero(Long.parseLong(concatenado, 10));
-                            } else {
-                                prod.setNumero(numero.longValue());
+                        }
+                        CteNumerador cteNumerador = null;
+                        if (idNumero != null) {
+                            cteNumerador = cteNumeradorFacade.find(idNumero);
+                            if (cteNumerador == null) {
+                                respuesta.setControl(AppCodigo.ERROR, "Error al cargar la factura, no existe el numero de comprobante");
+                                return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
                             }
-                            prod.setFecha(fechaEmision);
-                            prod.setStock(cteTipo.getIdSisComprobante().getStock());
-                            //prod.setIdLotes(item);
-                            listaProdumo.add(prod);
+                            String ptoVenta = String.valueOf(cteNumerador.getIdPtoVenta().getPtoVenta());
+                            String numeroVentaFormat = String.format("%08d", cteNumerador.getNumerador());
+                            String concatenado = ptoVenta.concat(numeroVentaFormat);
+                            prod.setNumero(Long.parseLong(concatenado, 10));
+                        } else {
+                            prod.setNumero(numero.longValue());
+                        }
+                        prod.setFecha(fechaEmision);
+                        prod.setStock(cteTipo.getIdSisComprobante().getStock());
+                        //prod.setIdLotes(item);
+
+                        listaProdumo.add(prod);
                         // verifico si debo enviar el mail, notificando que se dio de alta un comprobante ////////////
 
                         //}
-
                     }
 
                     //Le sumo uno al contador de items
@@ -1053,15 +1072,19 @@ public class GrabaComprobanteRest {
                 //Termina la griila de sub totales y empieza la de trasabilidad
                 if (lote && cteTipo.getIdSisComprobante().getStock().equals(1) && grillaTrazabilidad != null && cteTipo.getIdSisComprobante().getIdSisModulos().getIdSisModulos() == 1) {
                     int itemTrazabilidad = 0;
+                    int cant = 0;
+                    List temp;
                     for (JsonElement gt : grillaTrazabilidad) {
+
                         //Obtengo los atributos del body
-                        String nroLote = (String) Utils.getKeyFromJsonObject("nroLote", gt.getAsJsonObject(), "String");
                         String serie = (String) Utils.getKeyFromJsonObject("serie", gt.getAsJsonObject(), "String");
+                        Integer posicion = (Integer) Utils.getKeyFromJsonObject("posItem", gt.getAsJsonObject(), "Integer");
                         Date fechaElab = (Date) Utils.getKeyFromJsonObject("fechaElab", gt.getAsJsonObject(), "Date");
                         Date fechaVto = (Date) Utils.getKeyFromJsonObject("fechaVto", gt.getAsJsonObject(), "Date");
                         Boolean vigencia = (Boolean) Utils.getKeyFromJsonObject("vigencia", gt.getAsJsonObject(), "boolean");
                         Integer idProducto = (Integer) Utils.getKeyFromJsonObject("idProducto", gt.getAsJsonObject(), "Integer");
-
+                        String nroLote = (String) Utils.getKeyFromJsonObject("nroLote", gt.getAsJsonObject(), "String");
+                        Integer glnProovedor = (Integer) Utils.getKeyFromJsonObject("gln", gt.getAsJsonObject(), "Integer");
                         //Pregunto por los que no pueden ser null
                         if (nroLote == null || serie == null || vigencia == null || idProducto == null) {
                             respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el lote de la factura, algun campo de la grilla es nulo");
@@ -1077,7 +1100,6 @@ public class GrabaComprobanteRest {
 
                         //Armo el lote
                         Lote loteNuevo = new Lote();
-
                         if (loteFacade.findByNroEmpresaProducto(nroLote, user.getIdPerfil().getIdSucursal().getIdEmpresa(), prod) != null) {
                             loteNuevo = loteFacade.findByNroEmpresaProducto(nroLote, user.getIdPerfil().getIdSucursal().getIdEmpresa(), prod);
                         }
@@ -1090,18 +1112,37 @@ public class GrabaComprobanteRest {
                         loteNuevo.setNroLote(nroLote);
                         loteNuevo.setSerie(serie);
                         loteNuevo.setVigencia(vigencia);
-
-                        //Recorro produmo y si es el mismo producto le agreego el lote
+                        //loteNuevo.setGlnProovedor(glnProovedor);
                         for (Produmo p : listaProdumo) {
                             if (p.getIdProductos().equals(prod)) {
-                                p.setNroLote(nroLote);
+                                 // item de produmo == a la posicion de angular
+                                if (p.getItem() == posicion && prod.getTrazable() == true) {
+                                    p.setNroLote(nroLote);
+                                    p.setGlnProovedor(glnProovedor);
+
+                                }
+
                             }
                         }
+
+                        //Recorro produmo y si es el mismo producto le agreego el lote y la geolocalizacion del proovedor
+                        /*for (Produmo p : listaProdumo) {
+                         // p.getItem() cambia cuando hay un elemento no trazable ver de reacomodar para este caso lsitaProdumo
+                         if (p.getIdProductos().equals(prod) && p.getItem() == posicion ){
+                         if ( prod.getTrazable() == true){
+                         p.setNroLote(nroLote);
+                         p.setGlnProovedor(glnProovedor);   
+                         }
+
+                                   
+                         }
+                         }*/
                         listaLotes.add(loteNuevo);
 
                         //Le sumo uno al item
-                        itemTrazabilidad++;
+                        itemTrazabilidad ++;
                     }
+
                 } else if (lote && cteTipo.getIdSisComprobante().getStock().equals(1) && grillaTrazabilidad != null && cteTipo.getIdSisComprobante().getIdSisModulos().getIdSisModulos() == 2) {
                     int itemTrazabilidad = 0;
                     //No guardo el lote pero si lo agrego a la tabla produmo
@@ -1109,11 +1150,12 @@ public class GrabaComprobanteRest {
                         //Obtengo los atributos del body
                         String nroLote = (String) Utils.getKeyFromJsonObject("nroLote", gt.getAsJsonObject(), "String");
                         String serie = (String) Utils.getKeyFromJsonObject("serie", gt.getAsJsonObject(), "String");
+                        Integer posicion = (Integer) Utils.getKeyFromJsonObject("posItem", gt.getAsJsonObject(), "Integer");
                         Date fechaElab = (Date) Utils.getKeyFromJsonObject("fechaElab", gt.getAsJsonObject(), "Date");
                         Date fechaVto = (Date) Utils.getKeyFromJsonObject("fechaVto", gt.getAsJsonObject(), "Date");
                         Boolean vigencia = (Boolean) Utils.getKeyFromJsonObject("vigencia", gt.getAsJsonObject(), "boolean");
                         Integer idProducto = (Integer) Utils.getKeyFromJsonObject("idProducto", gt.getAsJsonObject(), "Integer");
-
+                        Integer glnProovedor = (Integer) Utils.getKeyFromJsonObject("glnProovedor", gt.getAsJsonObject(), "Integer");
                         //Pregunto por los que no pueden ser null
                         if (nroLote == null || serie == null || vigencia == null || idProducto == null) {
                             respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el lote de la factura, algun campo de la grilla es nulo");
@@ -1143,10 +1185,13 @@ public class GrabaComprobanteRest {
                         loteNuevo.setSerie(serie);
                         loteNuevo.setVigencia(vigencia);
 
-                        //Recorro produmo y si es el mismo producto le agreego el lote
+                        //Recorro produmo y si es el mismo producto le agreego el lote y la geolicalizacion del proovedor
                         for (Produmo p : listaProdumo) {
-                            if (p.getIdProductos().equals(prod)) {
+                            if (p.getIdProductos().equals(prod) && posicion == itemTrazabilidad && prod.getTrazable() == true) {
+
                                 p.setNroLote(nroLote);
+                                p.setGlnProovedor(glnProovedor);
+
                             }
                         }
                         //Le sumo uno al item
@@ -1404,10 +1449,18 @@ public class GrabaComprobanteRest {
             }
             if (!produmo.isEmpty()) {
                 //Comienzo con la transaccion de produmo
+              /* for (Lote l : listaLotes) {
+                 if (){
+                        
+                 }
+                 }*/
+
                 for (Produmo pr : produmo) {
                     boolean transaccion5;
+
                     transaccion5 = produmoFacade.setProdumoNuevo(pr);
                     //si la trnsaccion fallo devuelvo el mensaje
+
                     if (!transaccion5) {
                         respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta produmo con el articulo: " + pr.getDetalle());
                         return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
@@ -1423,6 +1476,7 @@ public class GrabaComprobanteRest {
                     } else {
                         transaccion6 = loteFacade.editLote(l);
                     }
+
                     //si la trnsaccion fallo devuelvo el mensaje
                     if (!transaccion6) {
                         respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el lote con el articulo: " + l.getIdproductos().getDescripcion());
@@ -1451,10 +1505,10 @@ public class GrabaComprobanteRest {
                     || factCab.getIdCteTipo().getIdSisComprobante().getIdSisComprobantes().equals(28)
                     || factCab.getIdCteTipo().getIdSisComprobante().getIdSisComprobantes().equals(29)
                     || factCab.getIdCteTipo().getIdSisComprobante().getIdSisComprobantes().equals(31)) {
-                GrabaFacCompraSybase fcSybase = new GrabaFacCompraSybase();
-                fcSybase.grabarFactComprasSybase(factCab, factDetalle, factFormaPago, factPie, user);
-
+                /*GrabaFacCompraSybase fcSybase = new GrabaFacCompraSybase();
+                 fcSybase.grabarFactComprasSybase(factCab, factDetalle, factFormaPago, factPie, user);*/
                 this.grabarFactComprasSybase(factCab, factDetalle, factFormaPago, factPie, user);
+                //this.grabarFitoStockSybase(factCab, factDetalle, factFormaPago, factPie, user, produmo, listaLotes, user);
             } else {
 
                 if (factCab.getIdCteTipo().getCursoLegal()) {
@@ -2425,11 +2479,9 @@ public class GrabaComprobanteRest {
 
             }
             for (FactDetalle det : factDetalle) {
-
                 totalPrecioUnitario = totalPrecioUnitario.add(det.getPrecio());
                 totalCantidad = totalCantidad.add(det.getCantidad());
                 movCierre.setCDeposito(det.getIdDepositos().getCodigoDep());
-
                 /*
                 
                  aca agregar los totalizadores de iva recorre fac detalle y suma
@@ -2498,8 +2550,6 @@ public class GrabaComprobanteRest {
      Fin proceso graba FacCompras
      */
     /*
-    
-    
      Graba a Master de Sybase
      Author: Dario
     
@@ -2542,7 +2592,7 @@ public class GrabaComprobanteRest {
             contabilSn = "S";
             facturadoSn = "S";
         }
-        //cuantas veces me vas a negar el signo papá
+        //cuantas veces me vas a negar el signo papÃ¡
         /*if (factCab.getIdCteTipo().getSurenu().equals("D")) {
          signo = signo.negate();
          }*/
@@ -3402,7 +3452,7 @@ public class GrabaComprobanteRest {
                         }
 
                     }
-                    //el 137 es el afip el que viene en nroCompPësificado es el interno
+                    //el 137 es el afip el que viene en nroCompPÃ«sificado es el interno
 
                     if (nroCompPesificado != null) {
                         String puntoVentaTemp = String.valueOf(nroCompPesificado);
@@ -3434,6 +3484,92 @@ public class GrabaComprobanteRest {
         //return Response.status(Response.Status.CREATED).entity(respuesta.toJson()).build();
     }
 
+    /*
+    
+     Trazabilidad: Graba en Fito_Stock en Sybase
+    
+     */
+    public Boolean grabarFitoStockSybase(FactCab factCab, List<FactDetalle> factDetalle, List<FactFormaPago> factFormaPago, List<FactPie> factPie, Usuario user, List<Produmo> produmo, List<Lote> lote, Usuario usuario) {
+        System.out.println("::::::::: Ejecuta ----------------------> grabarFitoStockSybase()  -> nroComprobante: " + factCab.getNumero() + " | Tipo SisComp: " + factCab.getIdCteTipo().getIdSisComprobante().getIdSisComprobantes());
+        if (factCab.getIdCteTipo().getIdSisComprobante().getIdSisComprobantes().equals(1) || factCab.getIdCteTipo().getIdSisComprobante().getIdSisComprobantes().equals(31)) {
+            ServicioResponse respuesta = new ServicioResponse();
+            //Seteo la fecha de hoy
+            Calendar calendario = new GregorianCalendar();
+            Date fechaHoy = calendario.getTime();
+            // categoria sybase de iva
+            //Contadores para los pases
+            Integer paseFitoStock = 1;
+            //Me fijo si es debe o haber
+            BigDecimal signo = new BigDecimal(1);
+            // numero de comprobante 
+            String formateada = String.format("%012d", factCab.getNumero());
+            String ptoVtaTemp = formateada.substring(0, 4);
+            String nroCompTemp = formateada.substring(4, formateada.length());
+            long nroCompTempCompleto = factCab.getNumero();
+            long nroComp = nroCompTempCompleto;
+
+            Integer tipoOperacion = factCab.getIdCteTipo().getcTipoOperacion();
+            Date fechaOperacion = factCab.getFechaEmision();
+
+            Integer padronCodigo = 0;
+            Integer padronProveedor = factCab.getIdPadron();
+            String observaciones = "";
+            String informaSn = "N";
+            String pendienteSn = "S";
+
+            for (Lote lot : lote) {
+                Integer nroMov = paseFitoStock;
+                for (Produmo prod : produmo) {
+                    if (lot.getIdproductos().getIdProductos() == prod.getIdProductos().getIdProductos() || lot.getNroLote() == prod.getNroLote()) {
+
+                        FitoStockSybase fitoStockSybase = new FitoStockSybase(tipoOperacion.shortValue(), fechaOperacion, (int) nroComp, nroMov);
+                        fitoStockSybase.setArtCodigo(prod.getIdProductos().getCodProducto());
+                        fitoStockSybase.setNCantidad(prod.getCantidad());
+                        fitoStockSybase.setPadronCodigo(padronCodigo);
+                        fitoStockSybase.setFitoGtin(prod.getIdProductos().getGtin());
+                        fitoStockSybase.setFitoFeElaboracion(lot.getFechaElab());
+                        fitoStockSybase.setFitoFeVto(lot.getFechaVto());
+                        fitoStockSybase.setEvId(Short.valueOf("0"));
+                        fitoStockSybase.setFitoGlnOrigen(prod.getGlnProovedor().longValue());
+                        fitoStockSybase.setFitoGlnDestino(BigDecimal.ZERO.longValue());
+                        fitoStockSybase.setMotivoId(Short.valueOf("0"));
+                        fitoStockSybase.setFitoMotivoDevolucion("");
+                        fitoStockSybase.setFitoNroTransaccion(BigDecimal.ZERO.longValue());
+                        fitoStockSybase.setObservaciones(observaciones);
+                        fitoStockSybase.setOperadorCodigo(user.getUsuarioSybase());
+                        fitoStockSybase.setDeposito(prod.getIdDepositos().getIdDepositos());
+                        fitoStockSybase.setCosecha(Short.valueOf("0"));
+                        fitoStockSybase.setPadronProveedor(padronProveedor);
+                        fitoStockSybase.setFitoNroLote(lot.getNroLote());
+                        fitoStockSybase.setFitoNroSerie(lot.getSerie());
+                        fitoStockSybase.setInformarSn(informaSn.charAt(0));
+                        fitoStockSybase.setPendienteSn(pendienteSn.charAt(0));
+                        paseFitoStock = paseFitoStock + 1;
+                        boolean transaccionSybaseFitoStock;
+                        transaccionSybaseFitoStock = fitoStockSybaseFacade.fitoStockSybaseNuevo(fitoStockSybase);
+                        //si la trnsaccion fallo devuelvo el mensaje
+                        if (!transaccionSybaseFitoStock) {
+                            return false;
+                        }
+                    }
+                }
+
+            }
+
+            // SI SON REMITOS VAN ESTAS MARCAS
+            System.out.println("::::::::: FIN  ----------------------> FitoStock Sybase() :: FitoStock pasado exitosamente !!! > ");
+            return true;
+        } else {
+            System.out.println("::::::::: FIN  ----------------------> FitoStock Sybase() :: Error el tipo de comprobante es invÃ¡lido !!!  ");
+            return false;
+        }
+    }
+
+    /*
+    
+     Fin Trazabilidad Fito_Stock
+    
+     */
     public void mandarMailPdf(Boolean enviaMail,
             FactCab factCab,
             HttpServletRequest request,
@@ -3481,7 +3617,7 @@ public class GrabaComprobanteRest {
             String emailOrigen = parametro.get("KERNEL_SMTP_USER");
             String emailDestino = sisOperacionComprobante.getMail1();
             String nombreDestino = sisOperacionComprobante.getNombreApellidoParaMail1();
-            String asunto = "Sistema de Facturación: Alta de " + cteTipo.getDescripcion();
+            String asunto = "Sistema de FacturaciÃ³n: Alta de " + cteTipo.getDescripcion();
             String detallePieComprobante = "";
             BigDecimal baseImponible = new BigDecimal(0);
             BigDecimal totalComprobante = new BigDecimal(0);
@@ -3526,7 +3662,7 @@ public class GrabaComprobanteRest {
                     + "<html>\n"
                     + "<head>\n"
                     + "<meta charset=\"utf-8\">\n"
-                    + "<title>Sistema Facturación</title>\n"
+                    + "<title>Sistema FacturaciÃ³n</title>\n"
                     + "</head>\n"
                     + "<body>\n"
                     + "<div  style='font-size:14px;'>\n"
@@ -3543,7 +3679,7 @@ public class GrabaComprobanteRest {
                     + "		<li>Nro Cuenta Corriente: " + factCab.getIdPadron() + "</li>\n"
                     + "		<li>Tipo Comprobante: " + cteTipo.getDescripcion() + "\n"
                     + "		<li>Nro Comprobante: " + nroCompString + " </li>\n"
-                    + "		<li>Fecha Emsión: " + fechaEmi + " </li>\n"
+                    + "		<li>Fecha EmsiÃ³n: " + fechaEmi + " </li>\n"
                     + "		<li>Fecha Vencimiento: " + fechaVence + " </li>\n"
                     + "		<li>Importe Neto: $" + baseImponible + " </li>\n"
                     + "		<li>Detalle: " + detallePieComprobante + " </li>\n"
@@ -4039,7 +4175,7 @@ public class GrabaComprobanteRest {
             }
 
         }
-        respuesta.setControl(AppCodigo.OK, "El pasaje de ventas se realizo con éxito.");
+        respuesta.setControl(AppCodigo.OK, "El pasaje de ventas se realizo con Ã©xito.");
         return Response.status(Response.Status.UNAUTHORIZED).entity(respuesta.toJson()).build();
     }
 
