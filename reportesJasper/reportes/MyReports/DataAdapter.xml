@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>Facturacion</name><driver>com.mysql.jdbc.Driver</driver><username>root</username><password>root</password><savePassword>true</savePassword><url>jdbc:mysql://10.0.0.33:3306/dbFacturacion?zeroDateTimeBehavior=convertToNull</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>

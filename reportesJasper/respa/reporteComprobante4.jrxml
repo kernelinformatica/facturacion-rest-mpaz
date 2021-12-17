@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteComprobante" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Empty" uuid="4806e2f6-ab00-41d0-b74f-73434a7c5917">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
-	<subDataset name="Dataset1" uuid="4ea6a17a-0c41-41ec-bd97-705e9e5b6c65">
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-		<queryString>
-			<![CDATA[]]>
-		</queryString>
-	</subDataset>
 	<parameter name="idFactCab" class="java.lang.Integer"/>
 	<parameter name="pathImagen" class="java.lang.String"/>
 	<parameter name="codigoVerificador" class="java.lang.String"/>
-	<parameter name="prefijoEmpresa" class="java.lang.String"/>
-	<parameter name="copia" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[Select 
-if(FactCab.idCteTipo IN (69,70,71,72), LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') ,LPAD(SUBSTRING(FactCab.numeroAfip,1,length(FactCab.numeroAfip)-8),4,'0'))  as prefijoComprobante, 
-if(FactCab.idCteTipo IN (69,70,71,72), SUBSTRING(FactCab.numero,-8),SUBSTRING(FactCab.numeroAfip,-8)) as numeroComprobante,
+LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') as prefijoComprobante,
+SUBSTRING(FactCab.numero,-8) as numeroComprobante,
 FactCab.cuit as cuitCliente,
 FactCab.fechaEmision as fechaEmisionComprobante,
 FactCab.nombre as nombreCilente,
@@ -39,9 +31,8 @@ FactCab.dolarizadoAlVto as dolarizadoAlVto,
 FactCab.interesMensualCompra as interesMensualCompra,
 FactCab.canjeInsumos as canjeInsumos,
 FactCab.tipoCambio as tipoCambio,
-FactCab.idCteTipo as idCteTipo,
-if(FactCab.idCteTipo IN (69,70,71,72), LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') ,LPAD(SUBSTRING(FactCab.numeroAfip,1,length(FactCab.numeroAfip)-8),4,'0'))  as prefijoComprobanteAfip, 
-if(FactCab.idCteTipo IN (69,70,71,72), SUBSTRING(FactCab.numero,-8),SUBSTRING(FactCab.numeroAfip,-8)) as numeroComprobanteAfip,
+LPAD(SUBSTRING(FactCab.numeroAfip,1,length(FactCab.numeroAfip)-8),4,'0') as prefijoComprobanteAfip,
+SUBSTRING(FactCab.numeroAfip,-8) as numeroComprobanteAfip,
 FactDetalle.detalle as detalleProducto,
 FactDetalle.cantidad as cantidad,
 FactDetalle.precio as precio,
@@ -53,6 +44,7 @@ FactDetalle.unidadDescuento as unidadDescuento,
 CteTipo.descCorta as descripcionCortaCteTipo,
 CteTipo.descripcion as descripcionCteTipo,
 CteTipo.detalleReporte as detalleReporte,
+Empresas.prefijoEmpresa as prefijoEmpresa,
 Empresas.nombre as nombreEmpresa,
 Empresas.descripcion as descripcionEmpresa,
 Empresas.domicilio as domicilioEmpresa,
@@ -69,9 +61,9 @@ SisMonedas.descripcion as moneda,
 SisTipoOperacion.descripcion as tipoOperacion,
 SisComprobantes.idSisComprobantes as idSisComprobante,
 PadronGral.nombre as apellido,
-IFNULL(FactFormaPago.detalle, NULL) detalleFormaPago,
-LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') as prefijoComprobanteImputado,
-SUBSTRING(FactCab.numero,-8) as numeroComprobanteImputado
+FactPie.importe as importePie,
+LPAD(SUBSTRING(comprobanteImputado.numero,1,length(comprobanteImputado.numero)-8),4,'0') as prefijoComprobanteImputado,
+SUBSTRING(comprobanteImputado.numero,-8) as numeroComprobanteImputado
 From FactCab
 inner join CteTipo on FactCab.idCteTipo = CteTipo.idCteTipo
 inner join Empresas on CteTipo.idEmpresa = Empresas.idEmpresa
@@ -79,9 +71,12 @@ inner join FactDetalle on FactCab.idFactCab = FactDetalle.idFactCab
 inner join SisMonedas on SisMonedas.idMoneda = FactCab.idmoneda
 inner join SisTipoOperacion on FactCab.idSisTipoOperacion = SisTipoOperacion.idSisTipoOperacion
 inner join SisOperacionComprobantes on FactCab.idSisOperacionComprobantes = SisOperacionComprobantes.idSisOperacionComprobantes
+left join FactImputa on FactDetalle.idFactDetalle = FactImputa.idFactDetalleImputa
 left join SisComprobantes on SisOperacionComprobantes.idSisComprobantes = SisComprobantes.idSisComprobantes
 left join PadronGral on FactCab.idPadron = PadronGral.idPadronGral
-left join FactFormaPago on FactCab.idFactCab = FactFormaPago.idFactCab
+left join FactPie on FactCab.idFactCab = FactPie.idFactCab
+left join FactDetalle as detalleImputado on detalleImputado.idFactDetalle = FactImputa.idFactDetalle
+left join FactCab as comprobanteImputado on comprobanteImputado.idFactCab = detalleImputado.idFactCab
 where FactCab.idFactCab = $P{idFactCab}]]>
 	</queryString>
 	<field name="numeroComprobante" class="java.lang.String"/>
@@ -91,7 +86,6 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 	<field name="caiComprobante" class="java.lang.String"/>
 	<field name="fechaVencimientoComprobante" class="java.sql.Date"/>
 	<field name="codigoAfip" class="java.lang.Integer"/>
-	<field name="idCteTipo" class="java.lang.Integer"/>
 	<field name="descripcionCortaCteTipo" class="java.lang.String"/>
 	<field name="descripcionCteTipo" class="java.lang.String"/>
 	<field name="nombreEmpresa" class="java.lang.String"/>
@@ -99,6 +93,7 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 	<field name="domicilioEmpresa" class="java.lang.String"/>
 	<field name="cuitEmpresa" class="java.lang.String"/>
 	<field name="ingBrutosEmpresa" class="java.lang.String"/>
+	<field name="prefijoEmpresa" class="java.lang.String"/>
 	<field name="detalleReporte" class="java.lang.String"/>
 	<field name="detalleProducto" class="java.lang.String"/>
 	<field name="cantidad" class="java.math.BigDecimal"/>
@@ -139,7 +134,7 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 	<field name="tipoCambio" class="java.lang.String"/>
 	<field name="idSisComprobante" class="java.lang.Integer"/>
 	<field name="apellido" class="java.lang.String"/>
-	<field name="detalleFormaPago" class="java.lang.String"/>
+	<field name="importePie" class="java.math.BigDecimal"/>
 	<variable name="bruto" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
 	</variable>
@@ -148,23 +143,27 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 	</variable>
 	<variable name="subTotal" class="java.math.BigDecimal"/>
 	<title>
-		<band height="110" splitType="Stretch">
+		<band height="101" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="99" height="80" uuid="ca4e86c7-4774-4cf5-85b2-739690ef4284">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA[$P{pathImagen} +"/"+$P{prefijoEmpresa}+".png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{pathImagen} +"/"+$F{prefijoEmpresa}+".png"]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="99" y="0" width="140" height="19" uuid="656c8afa-03d7-401f-b0fb-c10a36205161"/>
+			<textField textAdjust="ScaleFont">
+				<reportElement x="99" y="0" width="140" height="20" uuid="656c8afa-03d7-401f-b0fb-c10a36205161">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="13" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombreEmpresa}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="99" y="19" width="140" height="51" uuid="e32d1f7e-f1f6-40e8-b7d6-71ef2b3566f8"/>
+			<textField textAdjust="ScaleFont">
+				<reportElement x="99" y="20" width="140" height="50" uuid="e32d1f7e-f1f6-40e8-b7d6-71ef2b3566f8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
@@ -358,11 +357,6 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 			<line>
 				<reportElement x="419" y="29" width="6" height="1" uuid="ea0ded61-fea8-4250-ad6d-0cd814f3c3fd"/>
 			</line>
-			<staticText>
-				<reportElement x="-1" y="80" width="80" height="20" uuid="3a4491dd-86a9-4376-ae6b-73387fc00714"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Coopaz]]></text>
-			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -616,7 +610,7 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 		</band>
 	</detail>
 	<lastPageFooter>
-		<band height="346" splitType="Prevent">
+		<band height="341" splitType="Prevent">
 			<line>
 				<reportElement x="-1" y="190" width="1" height="103" uuid="3f2ddd50-6022-4aa8-a106-5160af31bf08"/>
 			</line>
@@ -639,9 +633,6 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 				</subreportParameter>
 				<subreportParameter name="cotDolar">
 					<subreportParameterExpression><![CDATA[$F{cotDolar}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="idCteTipo">
-					<subreportParameterExpression><![CDATA[$F{idCteTipo}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<returnValue subreportVariable="subTotal" toVariable="subTotal"/>
@@ -672,9 +663,7 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 				<text><![CDATA[Forma de Pago:]]></text>
 			</staticText>
 			<subreport>
-				<reportElement x="0" y="116" width="555" height="71" uuid="8ac3eb89-c9ae-48ca-9113-ce676e1c69ba">
-					<printWhenExpression><![CDATA[$F{detalleFormaPago} != null]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="0" y="116" width="555" height="71" uuid="8ac3eb89-c9ae-48ca-9113-ce676e1c69ba"/>
 				<subreportParameter name="idFactCab">
 					<subreportParameterExpression><![CDATA[$P{idFactCab}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -688,27 +677,27 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 				<subreportExpression><![CDATA[$P{pathImagen} +"/"+"formaPago.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement x="0" y="320" width="40" height="13" uuid="a186cc1d-9c60-46b9-a182-67a0a833a0d0">
+				<reportElement x="0" y="315" width="40" height="13" uuid="a186cc1d-9c60-46b9-a182-67a0a833a0d0">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<printWhenExpression><![CDATA[!$F{cae}.equals(" ")]]></printWhenExpression>
 				</reportElement>
 				<text><![CDATA[C.A.E.:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="333" width="120" height="13" uuid="7bae7c86-36cb-4072-9f69-9abecdb4a75f">
+				<reportElement x="0" y="328" width="120" height="13" uuid="7bae7c86-36cb-4072-9f69-9abecdb4a75f">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<printWhenExpression><![CDATA[!$F{cae}.equals(" ")]]></printWhenExpression>
 				</reportElement>
 				<text><![CDATA[FECHA VENCIMIENTO:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="40" y="320" width="100" height="13" uuid="a1336501-0677-4f23-85e4-086dc2abf210">
+				<reportElement x="40" y="315" width="100" height="13" uuid="a1336501-0677-4f23-85e4-086dc2abf210">
 					<printWhenExpression><![CDATA[!$F{cae}.equals(" ")]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{cae}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="119" y="333" width="100" height="13" uuid="3e9fc25f-8ac9-46b5-9d0e-d7377e43dbfc">
+				<reportElement x="120" y="328" width="100" height="13" uuid="3e9fc25f-8ac9-46b5-9d0e-d7377e43dbfc">
 					<printWhenExpression><![CDATA[!$F{cae}.equals(" ")]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -732,26 +721,26 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 				</jr:Interleaved2Of5>
 			</componentElement>
 			<staticText>
-				<reportElement x="0" y="306" width="40" height="13" uuid="a5f58039-db0e-4992-a195-2f2417339cd8">
+				<reportElement x="0" y="300" width="40" height="13" uuid="a5f58039-db0e-4992-a195-2f2417339cd8">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<printWhenExpression><![CDATA[!$F{prefijoComprobanteAfip}.equals(null)]]></printWhenExpression>
 				</reportElement>
 				<text><![CDATA[Interno:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="39" y="306" width="33" height="13" uuid="13e158b2-bb15-4d83-9ec7-3a902368a4be">
+				<reportElement x="40" y="300" width="33" height="13" uuid="13e158b2-bb15-4d83-9ec7-3a902368a4be">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{prefijoComprobanteAfip} != null?$F{prefijoComprobante}: " "]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="73" y="312" width="6" height="1" uuid="7b4a2cc0-c30f-44d8-8eaa-8d4e29e89430">
+				<reportElement x="73" y="306" width="6" height="1" uuid="7b4a2cc0-c30f-44d8-8eaa-8d4e29e89430">
 					<printWhenExpression><![CDATA[!$F{prefijoComprobanteAfip}.equals(null)]]></printWhenExpression>
 				</reportElement>
 			</line>
 			<textField>
-				<reportElement x="79" y="306" width="95" height="13" uuid="19f02cca-7eee-4137-9d5b-cdada623280e"/>
+				<reportElement x="79" y="300" width="95" height="13" uuid="19f02cca-7eee-4137-9d5b-cdada623280e"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{numeroComprobanteAfip} != null?$F{numeroComprobante}:" "]]></textFieldExpression>
 			</textField>
@@ -763,72 +752,82 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 				<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="4" y="194" width="203" height="21" uuid="8b94b337-47ea-44d2-85d9-19c3dcf24a73"/>
+				<reportElement x="4" y="194" width="203" height="21" uuid="8b94b337-47ea-44d2-85d9-19c3dcf24a73">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Condiciones de comercialización]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="208" width="68" height="22" uuid="dfd5c061-5ae0-457a-b7d6-5f5de82b42e2"/>
+				<reportElement x="5" y="208" width="68" height="22" uuid="dfd5c061-5ae0-457a-b7d6-5f5de82b42e2">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<text><![CDATA[Pesificado:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="58" y="208" width="149" height="20" uuid="e49abc1b-494f-4204-b074-4eb07deb44f1"/>
+				<reportElement x="58" y="208" width="149" height="20" uuid="e49abc1b-494f-4204-b074-4eb07deb44f1">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<textFieldExpression><![CDATA[($F{pesificado} ? "SI" : "NO")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="5" y="223" width="100" height="22" uuid="5b37aa8d-63b6-45f5-9667-e1533026d594"/>
+				<reportElement x="5" y="223" width="100" height="22" uuid="5b37aa8d-63b6-45f5-9667-e1533026d594">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<text><![CDATA[Dolarizado al vto:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="85" y="223" width="122" height="20" uuid="3eaae8dc-816f-4681-ad7a-de8a3c479f98"/>
+				<reportElement x="85" y="223" width="122" height="20" uuid="3eaae8dc-816f-4681-ad7a-de8a3c479f98">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<textFieldExpression><![CDATA[($F{dolarizadoAlVto} ? "SI" : "NO")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="5" y="238" width="144" height="22" uuid="94c1d1f9-7d47-43bb-b288-52e9933702e6"/>
+				<reportElement x="5" y="238" width="144" height="22" uuid="94c1d1f9-7d47-43bb-b288-52e9933702e6">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<text><![CDATA[Interés mensual de compra:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="130" y="238" width="77" height="20" uuid="dcf9d734-304a-4d38-8c37-c4dfd424ba25"/>
+				<reportElement x="130" y="238" width="77" height="20" uuid="dcf9d734-304a-4d38-8c37-c4dfd424ba25">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{interesMensualCompra} + "%"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="5" y="253" width="144" height="22" uuid="b6b1f83c-ac0c-4b17-9bfa-00ec7684149c"/>
+				<reportElement x="5" y="253" width="144" height="22" uuid="b6b1f83c-ac0c-4b17-9bfa-00ec7684149c">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<text><![CDATA[Canje insumos:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="76" y="253" width="131" height="20" uuid="f083ec49-d1cf-4b4e-99b9-96da7c76f347"/>
+				<reportElement x="76" y="253" width="131" height="20" uuid="f083ec49-d1cf-4b4e-99b9-96da7c76f347">
+					<printWhenExpression><![CDATA[($F{idSisComprobante}== 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<textFieldExpression><![CDATA[($F{canjeInsumos} ? "SI" : "NO")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="4" y="270" width="144" height="22" uuid="4605117b-651f-482a-b9fa-f35d061904f5"/>
+				<reportElement x="4" y="270" width="144" height="22" uuid="4605117b-651f-482a-b9fa-f35d061904f5">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<text><![CDATA[Tipo de cambio: ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="77" y="270" width="100" height="20" uuid="1ed95934-8922-42d8-9b08-8c21f79ce535"/>
+				<reportElement x="77" y="270" width="100" height="20" uuid="1ed95934-8922-42d8-9b08-8c21f79ce535">
+					<printWhenExpression><![CDATA[($F{idSisComprobante} == 4 ? true : false)]]></printWhenExpression>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{tipoCambio}]]></textFieldExpression>
 			</textField>
-			<rectangle>
-				<reportElement mode="Opaque" x="4" y="194" width="166" height="96" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="286711e4-95d2-4f7d-830d-0fbab5d74416">
-					<printWhenExpression><![CDATA[($F{idSisComprobante} != 4 ? true : false)]]></printWhenExpression>
+			<textField textAdjust="ScaleFont" evaluationTime="Report">
+				<reportElement x="1" y="191" width="206" height="109" uuid="f78030c4-56f4-42a9-9130-948a002d272c">
+					<printWhenExpression><![CDATA[(($F{idSisComprobante}== 3) || ($F{idSisComprobante}== 8) || ($F{idSisComprobante}== 26)  ? true : false)]]></printWhenExpression>
 				</reportElement>
-				<graphicElement>
-					<pen lineStyle="Solid" lineColor="#FFFFFF"/>
-				</graphicElement>
-			</rectangle>
-			<textField evaluationTime="Report">
-				<reportElement x="0" y="194" width="211" height="106" uuid="af7fdc2e-1182-4a30-8cf3-39fc5e04e73e">
-					<printWhenExpression><![CDATA[(($F{idSisComprobante}== 3) || ($F{idSisComprobante}== 8) || ($F{idSisComprobante}== 26)  ? Boolean.TRUE : Boolean.FALSE)]]></printWhenExpression>
-				</reportElement>
-				<textElement>
+				<textElement markup="none">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA["El presente comprobante equivale a u$s " + ($F{moneda}.equals("u$s") ? $V{subTotal}.add($V{bruto}).setScale(2, java.math.RoundingMode.HALF_UP).toString() : $V{subTotal}.divide($F{cotDolar}, 2, RoundingMode.HALF_UP).setScale(2, java.math.RoundingMode.HALF_UP).add($V{bruto}.divide($F{cotDolar}, 2, RoundingMode.HALF_UP).setScale(2, java.math.RoundingMode.HALF_UP)).toString()) + ". Tomando como base 1 dólares = $ " + $F{cotDolar}.toString() + ". El precio de la presente factura deberá ser cancelada en dólares estadounidense o su equivalente en pesos de curso legal calculados de acuerdo a la cotización al tipo de cambio vendedor del Banco Nación Argentina correspondiente al día inmediato anterior a que efectivamente se acredite el pago. La diferencia que pudiera corresponder pagar o devolver a una u otra parte es virtud de la presente cláusula deberá efectivizarse dentro de las 72 horas de acreditado el pago de la presente factura. El señor " + $F{nombreCilente} + " " + $F{apellido} + " Autoriza a la Coop. Agrop. de Maximo Paz a liquidar el cereal/oleaginosa entregado en las plantas pertenecientes a nuestra Cooperativa, segun certificados de deposito suscriptos oportunamente, al precio pizarra del Puerto que corresponda y del día del vencimiento de las facturas. La presente autorización tiene el carácter de irrevocable."]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="150" y="306" width="131" height="14" uuid="47b19cbb-3754-454a-b394-542aa3444b7f"/>
-				<textFieldExpression><![CDATA[$P{copia}]]></textFieldExpression>
 			</textField>
 		</band>
 	</lastPageFooter>

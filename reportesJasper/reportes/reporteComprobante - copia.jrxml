@@ -16,8 +16,8 @@
 	<parameter name="copia" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[Select 
-if(FactCab.idCteTipo IN (69,70,71,72), LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') ,LPAD(SUBSTRING(FactCab.numeroAfip,1,length(FactCab.numeroAfip)-8),4,'0'))  as prefijoComprobante, 
-if(FactCab.idCteTipo IN (69,70,71,72), SUBSTRING(FactCab.numero,-8),SUBSTRING(FactCab.numeroAfip,-8)) as numeroComprobante,
+LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') as prefijoComprobante,
+SUBSTRING(FactCab.numero,-8) as numeroComprobante,
 FactCab.cuit as cuitCliente,
 FactCab.fechaEmision as fechaEmisionComprobante,
 FactCab.nombre as nombreCilente,
@@ -40,8 +40,8 @@ FactCab.interesMensualCompra as interesMensualCompra,
 FactCab.canjeInsumos as canjeInsumos,
 FactCab.tipoCambio as tipoCambio,
 FactCab.idCteTipo as idCteTipo,
-if(FactCab.idCteTipo IN (69,70,71,72), LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') ,LPAD(SUBSTRING(FactCab.numeroAfip,1,length(FactCab.numeroAfip)-8),4,'0'))  as prefijoComprobanteAfip, 
-if(FactCab.idCteTipo IN (69,70,71,72), SUBSTRING(FactCab.numero,-8),SUBSTRING(FactCab.numeroAfip,-8)) as numeroComprobanteAfip,
+LPAD(SUBSTRING(FactCab.numeroAfip,1,length(FactCab.numeroAfip)-8),4,'0') as prefijoComprobanteAfip,
+SUBSTRING(FactCab.numeroAfip,-8) as numeroComprobanteAfip,
 FactDetalle.detalle as detalleProducto,
 FactDetalle.cantidad as cantidad,
 FactDetalle.precio as precio,
@@ -70,8 +70,8 @@ SisTipoOperacion.descripcion as tipoOperacion,
 SisComprobantes.idSisComprobantes as idSisComprobante,
 PadronGral.nombre as apellido,
 IFNULL(FactFormaPago.detalle, NULL) detalleFormaPago,
-LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') as prefijoComprobanteImputado,
-SUBSTRING(FactCab.numero,-8) as numeroComprobanteImputado
+LPAD(SUBSTRING(comprobanteImputado.numero,1,length(comprobanteImputado.numero)-8),4,'0') as prefijoComprobanteImputado,
+SUBSTRING(comprobanteImputado.numero,-8) as numeroComprobanteImputado
 From FactCab
 inner join CteTipo on FactCab.idCteTipo = CteTipo.idCteTipo
 inner join Empresas on CteTipo.idEmpresa = Empresas.idEmpresa
@@ -79,8 +79,11 @@ inner join FactDetalle on FactCab.idFactCab = FactDetalle.idFactCab
 inner join SisMonedas on SisMonedas.idMoneda = FactCab.idmoneda
 inner join SisTipoOperacion on FactCab.idSisTipoOperacion = SisTipoOperacion.idSisTipoOperacion
 inner join SisOperacionComprobantes on FactCab.idSisOperacionComprobantes = SisOperacionComprobantes.idSisOperacionComprobantes
+left join FactImputa on FactDetalle.idFactDetalle = FactImputa.idFactDetalleImputa
 left join SisComprobantes on SisOperacionComprobantes.idSisComprobantes = SisComprobantes.idSisComprobantes
 left join PadronGral on FactCab.idPadron = PadronGral.idPadronGral
+left join FactDetalle as detalleImputado on detalleImputado.idFactDetalle = FactImputa.idFactDetalle
+left join FactCab as comprobanteImputado on comprobanteImputado.idFactCab = detalleImputado.idFactCab
 left join FactFormaPago on FactCab.idFactCab = FactFormaPago.idFactCab
 where FactCab.idFactCab = $P{idFactCab}]]>
 	</queryString>
@@ -148,7 +151,7 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 	</variable>
 	<variable name="subTotal" class="java.math.BigDecimal"/>
 	<title>
-		<band height="110" splitType="Stretch">
+		<band height="101" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="99" height="80" uuid="ca4e86c7-4774-4cf5-85b2-739690ef4284">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -358,11 +361,6 @@ where FactCab.idFactCab = $P{idFactCab}]]>
 			<line>
 				<reportElement x="419" y="29" width="6" height="1" uuid="ea0ded61-fea8-4250-ad6d-0cd814f3c3fd"/>
 			</line>
-			<staticText>
-				<reportElement x="-1" y="80" width="80" height="20" uuid="3a4491dd-86a9-4376-ae6b-73387fc00714"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Coopaz]]></text>
-			</staticText>
 		</band>
 	</title>
 	<pageHeader>

@@ -861,7 +861,7 @@ public class GrabaComprobanteRest {
                         prod.setIdProductos(producto);
                         if (cteTipo.getIdCteTipo().equals(69)){
                             // Si es remito de compra grabo la psoicion de la grilla  
-                            // para poder relacionarlos 
+                            // para poder relacionarlos
                             if (posicionArticulo == null){
                                 posicionArticulo = 0;
                             }
@@ -1069,7 +1069,7 @@ public class GrabaComprobanteRest {
                 }
                 System.out.println("Verifico permiso para envio de mail (Alta de Comprobante) = " + sisOperacionComprobante.getEnviaMail());
 
-                //Termina la griila de sub totales y empieza la de trasabilidad
+                //Termina la griila de sub totales y empieza la de trazabilidad
                 if (lote && cteTipo.getIdSisComprobante().getStock().equals(1) && grillaTrazabilidad != null && cteTipo.getIdSisComprobante().getIdSisModulos().getIdSisModulos() == 1) {
                     int itemTrazabilidad = 0;
                     int cant = 0;
@@ -1103,12 +1103,12 @@ public class GrabaComprobanteRest {
                         if (loteFacade.findByNroEmpresaProducto(nroLote, user.getIdPerfil().getIdSucursal().getIdEmpresa(), prod) != null) {
                             loteNuevo = loteFacade.findByNroEmpresaProducto(nroLote, user.getIdPerfil().getIdSucursal().getIdEmpresa(), prod);
                         }
-
+                        loteNuevo.setItem(posicion);
                         loteNuevo.setFechaElab(fechaElab);
                         loteNuevo.setFechaVto(fechaVto);
                         loteNuevo.setIdEmpresa(user.getIdPerfil().getIdSucursal().getIdEmpresa().getIdEmpresa());
                         loteNuevo.setIdproductos(prod);
-                        loteNuevo.setItem(itemTrazabilidad);
+                        //loteNuevo.setItem(itemTrazabilidad);
                         loteNuevo.setNroLote(nroLote);
                         loteNuevo.setSerie(serie);
                         loteNuevo.setVigencia(vigencia);
@@ -1180,18 +1180,17 @@ public class GrabaComprobanteRest {
                         loteNuevo.setFechaVto(fechaVto);
                         loteNuevo.setIdEmpresa(user.getIdPerfil().getIdSucursal().getIdEmpresa().getIdEmpresa());
                         loteNuevo.setIdproductos(prod);
-                        loteNuevo.setItem(itemTrazabilidad);
+                       
                         loteNuevo.setNroLote(nroLote);
                         loteNuevo.setSerie(serie);
                         loteNuevo.setVigencia(vigencia);
-
+                        loteNuevo.setItem(posicion);
+                        // loteNuevo.setItem(itemTrazabilidad);
                         //Recorro produmo y si es el mismo producto le agreego el lote y la geolicalizacion del proovedor
                         for (Produmo p : listaProdumo) {
                             if (p.getIdProductos().equals(prod) && posicion == itemTrazabilidad && prod.getTrazable() == true) {
-
                                 p.setNroLote(nroLote);
                                 p.setGlnProovedor(glnProovedor);
-
                             }
                         }
                         //Le sumo uno al item
@@ -1508,7 +1507,7 @@ public class GrabaComprobanteRest {
                 /*GrabaFacCompraSybase fcSybase = new GrabaFacCompraSybase();
                  fcSybase.grabarFactComprasSybase(factCab, factDetalle, factFormaPago, factPie, user);*/
                 this.grabarFactComprasSybase(factCab, factDetalle, factFormaPago, factPie, user);
-                //this.grabarFitoStockSybase(factCab, factDetalle, factFormaPago, factPie, user, produmo, listaLotes, user);
+                this.grabarFitoStockSybase(factCab, factDetalle, factFormaPago, factPie, user, produmo, listaLotes, user);
             } else {
 
                 if (factCab.getIdCteTipo().getCursoLegal()) {
@@ -3506,8 +3505,8 @@ public class GrabaComprobanteRest {
             String ptoVtaTemp = formateada.substring(0, 4);
             String nroCompTemp = formateada.substring(4, formateada.length());
             long nroCompTempCompleto = factCab.getNumero();
-            long nroComp = nroCompTempCompleto;
-
+            long nroCompBigD = nroCompTempCompleto;
+            BigDecimal nroComp = new BigDecimal(nroCompBigD);
             Integer tipoOperacion = factCab.getIdCteTipo().getcTipoOperacion();
             Date fechaOperacion = factCab.getFechaEmision();
 
@@ -3516,13 +3515,17 @@ public class GrabaComprobanteRest {
             String observaciones = "";
             String informaSn = "N";
             String pendienteSn = "S";
-
+            String serie = "";
+            
+      // if (p.getItem() == posicion && prod.getTrazable() == true) {
             for (Lote lot : lote) {
-                Integer nroMov = paseFitoStock;
+               serie = lot.getSerie();
                 for (Produmo prod : produmo) {
-                    if (lot.getIdproductos().getIdProductos() == prod.getIdProductos().getIdProductos() || lot.getNroLote() == prod.getNroLote()) {
-
-                        FitoStockSybase fitoStockSybase = new FitoStockSybase(tipoOperacion.shortValue(), fechaOperacion, (int) nroComp, nroMov);
+                   /*lot.getItem() == prod.getItem() ||*/
+                     Integer nroMov = prod.getItem();//paseFitoStock;
+                    //if (lot.getIdproductos().getIdProductos() == prod.getIdProductos().getIdProductos() || lot.getNroLote() == prod.getNroLote()) {
+                    if (lot.getItem() == prod.getItem() /*|| (lot.getIdproductos().getIdProductos() == prod.getIdProductos().getIdProductos() || lot.getNroLote() == prod.getNroLote())*/){
+                        FitoStockSybase fitoStockSybase = new FitoStockSybase(tipoOperacion.shortValue(), fechaOperacion, nroComp, nroMov);
                         fitoStockSybase.setArtCodigo(prod.getIdProductos().getCodProducto());
                         fitoStockSybase.setNCantidad(prod.getCantidad());
                         fitoStockSybase.setPadronCodigo(padronCodigo);
@@ -3540,11 +3543,15 @@ public class GrabaComprobanteRest {
                         fitoStockSybase.setDeposito(prod.getIdDepositos().getIdDepositos());
                         fitoStockSybase.setCosecha(Short.valueOf("0"));
                         fitoStockSybase.setPadronProveedor(padronProveedor);
-                        fitoStockSybase.setFitoNroLote(lot.getNroLote());
-                        fitoStockSybase.setFitoNroSerie(lot.getSerie());
+                        /// 
+                        fitoStockSybase.setFitoNroLote(prod.getNroLote());
+                        fitoStockSybase.setFitoNroSerie(serie);
+                        /// 
                         fitoStockSybase.setInformarSn(informaSn.charAt(0));
                         fitoStockSybase.setPendienteSn(pendienteSn.charAt(0));
+                       
                         paseFitoStock = paseFitoStock + 1;
+                        serie = "";
                         boolean transaccionSybaseFitoStock;
                         transaccionSybaseFitoStock = fitoStockSybaseFacade.fitoStockSybaseNuevo(fitoStockSybase);
                         //si la trnsaccion fallo devuelvo el mensaje

@@ -24,12 +24,22 @@
 		<link>
 			<name>reporteComprobante.jasper</name>
 			<type>1</type>
-			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest-marga/facturacion-rest/reportesJasper/reportes/reporteComprobante.jasper</location>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobante.jasper</location>
 		</link>
 		<link>
 			<name>reporteComprobante.jrxml</name>
 			<type>1</type>
-			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest-marga/facturacion-rest/reportesJasper/reportes/reporteComprobante.jrxml</location>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobante.jrxml</location>
+		</link>
+		<link>
+			<name>reporteComprobante_2.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/respaldos/facturacion-rest/src/main/webapp/WEB-INF/resources/reportes/reporteComprobante.jrxml</location>
+		</link>
+		<link>
+			<name>reporteComprobante_3.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobante.jrxml</location>
 		</link>
 	</linkedResources>
 </projectDescription>

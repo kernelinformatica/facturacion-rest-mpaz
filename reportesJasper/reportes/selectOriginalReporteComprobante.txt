@@ -1,0 +1,75 @@
+Select 
+LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') as prefijoComprobante,
+SUBSTRING(FactCab.numero,-8) as numeroComprobante,
+FactCab.cuit as cuitCliente,
+FactCab.fechaEmision as fechaEmisionComprobante,
+FactCab.nombre as nombreCilente,
+FactCab.cai as caiComprobante,
+FactCab.fechaVto as fechaVencimientoComprobante,
+FactCab.sitIVA as situacionIvaCliente,
+FactCab.idListaPrecios as listaPrecios,
+FactCab.letra as letra,
+FactCab.cai as cae,
+FactCab.caiVto as caeVto,
+FactCab.codigoAfip as codigoAfip,
+FactCab.cotDolar as cotDolar,
+FactCab.idPadron as ctaCtePadron,
+FactCab.Observaciones as observaciones,
+FactCab.domicilio as domicilioPadron,
+FactCab.codigoPostal as codigoPostal,
+FactCab.pesificado as pesificado,
+FactCab.dolarizadoAlVto as dolarizadoAlVto,
+FactCab.interesMensualCompra as interesMensualCompra,
+FactCab.canjeInsumos as canjeInsumos,
+FactCab.tipoCambio as tipoCambio,
+FactCab.idCteTipo as idCteTipo,
+
+
+if(FactCab.idCteTipo IN (69,70,71,72), LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') ,LPAD(SUBSTRING(FactCab.numeroAfip,1,length(FactCab.numeroAfip)-8),4,'0'))  as prefijoComprobanteAfip, 
+if(FactCab.idCteTipo IN (69,70,71,72), SUBSTRING(FactCab.numero,-8),SUBSTRING(FactCab.numeroAfip,-8)) as numeroComprobanteAfip,
+/*LPAD(SUBSTRING(FactCab.numeroAfip,1,length(FactCab.numeroAfip)-8),4,'0') as prefijoComprobanteAfip,
+SUBSTRING(FactCab.numeroAfip,-8) as numeroComprobanteAfip,*/
+FactDetalle.detalle as detalleProducto,
+FactDetalle.cantidad as cantidad,
+FactDetalle.precio as precio,
+FactDetalle.codProducto as codigoProducto,
+FactDetalle.importe as importe,
+FactDetalle.descuento	as descuento,
+FactDetalle.precioDesc as precioDesc,
+FactDetalle.unidadDescuento as unidadDescuento,
+CteTipo.descCorta as descripcionCortaCteTipo,
+CteTipo.descripcion as descripcionCteTipo,
+CteTipo.detalleReporte as detalleReporte,
+Empresas.nombre as nombreEmpresa,
+Empresas.descripcion as descripcionEmpresa,
+Empresas.domicilio as domicilioEmpresa,
+Empresas.cuit as cuitEmpresa,
+Empresas.iibb as ingBrutosEmpresa,
+Empresas.telefono as telefono,
+Empresas.codigoPostal as codigoPostalEmpresa,
+Empresas.situacionIva as situacionIvaEmpresa,
+SisOperacionComprobantes.leyenda1 as leyenda1,
+SisOperacionComprobantes.leyenda2 as leyenda2,
+SisOperacionComprobantes.leyenda3 as leyenda3,
+SisOperacionComprobantes.leyenda4 as leyenda4,
+SisMonedas.descripcion as moneda,
+SisTipoOperacion.descripcion as tipoOperacion,
+SisComprobantes.idSisComprobantes as idSisComprobante,
+PadronGral.nombre as apellido,
+IFNULL(FactFormaPago.detalle, NULL) detalleFormaPago,
+LPAD(SUBSTRING(FactCab.numero,1,length(FactCab.numero)-8),4,'0') as prefijoComprobanteImputado,
+SUBSTRING(FactCab.numero,-8) as numeroComprobanteImputado
+From FactCab
+inner join CteTipo on FactCab.idCteTipo = CteTipo.idCteTipo
+inner join Empresas on CteTipo.idEmpresa = Empresas.idEmpresa
+inner join FactDetalle on FactCab.idFactCab = FactDetalle.idFactCab
+inner join SisMonedas on SisMonedas.idMoneda = FactCab.idmoneda
+inner join SisTipoOperacion on FactCab.idSisTipoOperacion = SisTipoOperacion.idSisTipoOperacion
+inner join SisOperacionComprobantes on FactCab.idSisOperacionComprobantes = SisOperacionComprobantes.idSisOperacionComprobantes
+left join FactImputa on FactDetalle.idFactDetalle = FactImputa.idFactDetalleImputa
+left join SisComprobantes on SisOperacionComprobantes.idSisComprobantes = SisComprobantes.idSisComprobantes
+left join PadronGral on FactCab.idPadron = PadronGral.idPadronGral
+left join FactDetalle as detalleImputado on detalleImputado.idFactDetalle = FactImputa.idFactDetalle
+left join FactCab as comprobanteImputado on comprobanteImputado.idFactCab = detalleImputado.idFactCab
+left join FactFormaPago on FactCab.idFactCab = FactFormaPago.idFactCab
+where FactCab.idFactCab = 3354
