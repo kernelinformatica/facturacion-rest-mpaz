@@ -63,7 +63,7 @@ import utils.Utils;
  */
 
 @Stateless
-@Path("cteTipo")
+@Path("cteTipo") 
 public class CteTipoRest {
     @Inject UsuarioFacade usuarioFacade;
     @Inject AccesoFacade accesoFacade;

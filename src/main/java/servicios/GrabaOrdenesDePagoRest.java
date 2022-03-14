@@ -461,14 +461,14 @@ public class GrabaOrdenesDePagoRest {
                     }
 
                     if (idSisOperacionComprobante == null) {
-                        respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el pie de la orden, Comprobante no encontrado");
+                        respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el pie de la orden, Comprobante no encontrado -> idSisOperacionComprobante: "+idSisOperacionComprobante);
                         return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
                     }
 
                     SisOperacionComprobante sisOperacionComprobante = sisOperacionComprobanteFacade.find(idSisOperacionComprobante);
                     System.out.println("sisOperacionComprobante: " + sisOperacionComprobante);
                     if (sisOperacionComprobante == null) {
-                        respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el pie de la orden, Comprobante no encontrado");
+                       respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta , Comprobante no encontrado -> idSisOperacionComprobante: " + idSisOperacionComprobante);
                         return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
                     }
 

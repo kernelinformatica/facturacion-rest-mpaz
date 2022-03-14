@@ -22,14 +22,19 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>reporteComprobante.jasper</name>
+			<name>listadoCabecera.jrxml</name>
 			<type>1</type>
-			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest-marga/facturacion-rest/reportesJasper/reportes/reporteComprobante.jasper</location>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/reportes/listadoCabecera.jrxml</location>
 		</link>
 		<link>
-			<name>reporteComprobante.jrxml</name>
+			<name>ordenPagoFormaPago.jrxml</name>
 			<type>1</type>
-			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest-marga/facturacion-rest/reportesJasper/reportes/reporteComprobante.jrxml</location>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/ordenPagoFormaPago.jrxml</location>
+		</link>
+		<link>
+			<name>ordenPagoSubTotales.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/ordenPagoSubTotales.jrxml</location>
 		</link>
 	</linkedResources>
 </projectDescription>
