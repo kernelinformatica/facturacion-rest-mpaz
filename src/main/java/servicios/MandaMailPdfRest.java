@@ -202,7 +202,7 @@ public class MandaMailPdfRest extends HttpServlet{
                         + "\n"
                         + "</body>\n"
                         + "</html>";
-                utils.enviarMailPdf(emailOrigen, nombreEmpresa + " : " + nombreSucursal, emailDestino, contenido, asunto, nombreDestino, bytes);
+                utils.enviarMailPdf(emailOrigen, nombreEmpresa + " : " + nombreSucursal, emailDestino, contenido, asunto, nombreDestino, bytes, sisOperacionComprobante);
                 respuesta.setControl(AppCodigo.CREADO, "Mandamo mail");
                 return Response.status(Response.Status.CREATED).entity(respuesta.toJson()).build();
       }  else {

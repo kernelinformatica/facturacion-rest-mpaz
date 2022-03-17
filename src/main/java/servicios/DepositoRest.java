@@ -40,7 +40,7 @@ import utils.Utils;
 
 /**
  *
- * @author Franco Sili
+ * @author Dario Quiroga
  */
 
 @Stateless

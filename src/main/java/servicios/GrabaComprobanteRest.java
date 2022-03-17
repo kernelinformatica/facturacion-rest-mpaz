@@ -659,8 +659,7 @@ public class GrabaComprobanteRest {
                 //Contador para factDetalle
                 int item = 0;
                 //Recorro el array de grillaArticulos y creo facDetalle para cada articulo
-                
-                        
+
                 for (JsonElement j : grillaArticulos) {
                     //Obtengo los atributos del body
                     Integer idProducto = (Integer) Utils.getKeyFromJsonObject("idProducto", j.getAsJsonObject(), "Integer");
@@ -679,8 +678,7 @@ public class GrabaComprobanteRest {
                     String imputacion = (String) Utils.getKeyFromJsonObject("imputacion", j.getAsJsonObject(), "String");
                     Integer idFactDetalleImputa = (Integer) Utils.getKeyFromJsonObject("idFactDetalleImputa", j.getAsJsonObject(), "Integer");
                     BigDecimal importe = (BigDecimal) Utils.getKeyFromJsonObject("importe", j.getAsJsonObject(), "BigDecimal");
-                   
-                    
+
                     if (importe.intValue() == 0) {
                         System.out.println("da 0 esto " + importe.intValue());
                     } else {
@@ -832,17 +830,17 @@ public class GrabaComprobanteRest {
 
                             if (factDetalle.getIdFactCab().getNumero() != imputa.getIdFactCab().getNumero()) {
                                 //if(imputa.getIdFactDetalle() != idFactDetalleImputa){
-                                    FactImputa facturaImputaExtra = new FactImputa();
-                                    facturaImputaExtra.setCantidadImputada(pendiente);
-                                    facturaImputaExtra.setIdFactDetalleImputa(factDetalle);
-                                    facturaImputaExtra.setIdFactDetalle(imputa);
-                                    facturaImputaExtra.setImporteImputado(pendiente.multiply(porCalc).multiply(precio));
-                                    facturaImputaExtra.setMasAsiento(0);
-                                    facturaImputaExtra.setMasAsientoImputado(0);
-                                    listaImputaExtra.add(facturaImputaExtra);
-                               // }else{
-                                  //  System.out.print(imputa.getIdFactDetalle() +"FactImputaExtra: Son Iguales no se graba ::::  <- imputa.getIdFactDetalle()--------------idFactDetalleImputa ->"+ idFactDetalleImputa);
-                               // }
+                                FactImputa facturaImputaExtra = new FactImputa();
+                                facturaImputaExtra.setCantidadImputada(pendiente);
+                                facturaImputaExtra.setIdFactDetalleImputa(factDetalle);
+                                facturaImputaExtra.setIdFactDetalle(imputa);
+                                facturaImputaExtra.setImporteImputado(pendiente.multiply(porCalc).multiply(precio));
+                                facturaImputaExtra.setMasAsiento(0);
+                                facturaImputaExtra.setMasAsientoImputado(0);
+                                listaImputaExtra.add(facturaImputaExtra);
+                                // }else{
+                                //  System.out.print(imputa.getIdFactDetalle() +"FactImputaExtra: Son Iguales no se graba ::::  <- imputa.getIdFactDetalle()--------------idFactDetalleImputa ->"+ idFactDetalleImputa);
+                                // }
 
                             }
                         }
@@ -863,14 +861,14 @@ public class GrabaComprobanteRest {
                         prod.setIdDepositos(deposito);
                         prod.setIdFactDetalle(factDetalle.getIdFactDetalle());
                         prod.setIdProductos(producto);
-                        if (cteTipo.getIdCteTipo().equals(69)){
+                        if (cteTipo.getIdCteTipo().equals(69)) {
                             // Si es remito de compra grabo la psoicion de la grilla  
                             // para poder relacionarlos 
-                            if (posicionArticulo == null){
+                            if (posicionArticulo == null) {
                                 posicionArticulo = 0;
                             }
                             prod.setItem(posicionArticulo);
-                        }else{
+                        } else {
                             prod.setItem(item);
                         }
                         CteNumerador cteNumerador = null;
@@ -1068,7 +1066,7 @@ public class GrabaComprobanteRest {
                 SisOperacionComprobante sisOperacionComprobante = sisOperacionComprobanteFacade.find(idSisOperacionComprobante);
                 if (Boolean.TRUE.equals(sisOperacionComprobante.getEnviaMail())) {
                     enviaMail = true;
-                } else if (Boolean.FALSE.equals(sisOperacionComprobante.getEnviaMail())) {
+                 } else if (Boolean.FALSE.equals(sisOperacionComprobante.getEnviaMail())) {
                     enviaMail = false;
                 }
                 System.out.println("Verifico permiso para envio de mail (Alta de Comprobante) = " + sisOperacionComprobante.getEnviaMail());
@@ -1094,7 +1092,7 @@ public class GrabaComprobanteRest {
                             respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el lote de la factura, algun campo de la grilla es nulo");
                             return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
                         }
-                        if (glnProovedor == null){
+                        if (glnProovedor == null) {
                             glnProovedor = 0;
                         }
                         //Busco el producto por id
@@ -1121,8 +1119,8 @@ public class GrabaComprobanteRest {
                         //loteNuevo.setGlnProovedor(glnProovedor);
                         for (Produmo p : listaProdumo) {
                             if (p.getIdProductos().equals(prod)) {
-                                 // item de produmo == a la posicion de angular
-                                 loteNuevo.setItem(posicion);
+                                // item de produmo == a la posicion de angular
+                                loteNuevo.setItem(posicion);
                                 if (p.getItem() == posicion && prod.getTrazable() == true) {
                                     p.setNroLote(nroLote);
                                     p.setGlnProovedor(glnProovedor);
@@ -1147,7 +1145,7 @@ public class GrabaComprobanteRest {
                         listaLotes.add(loteNuevo);
 
                         //Le sumo uno al item
-                        itemTrazabilidad ++;
+                        itemTrazabilidad++;
                     }
 
                 } else if (lote && cteTipo.getIdSisComprobante().getStock().equals(1) && grillaTrazabilidad != null && cteTipo.getIdSisComprobante().getIdSisModulos().getIdSisModulos() == 2) {
@@ -1229,6 +1227,7 @@ public class GrabaComprobanteRest {
                             factCab.setCaiVto(cteNumerador.getVtoCai());
                         }
                     }
+                   
                     return this.persistirObjetos(factCab, contratoDet, listaDetalles, listaImputa, listaImputaExtra, listaProdumo, listaPie, listaLotes, listaFormaPago, cteNumerador, user, esPesificado, esPesificadoPersisteSn, nroCompPesificado);
                 } else if (tipoFact != null || letraFact != null || numeroFact != null || fechaVencimientoFact != null || fechaContaFact != null) {
                     CteNumerador cteNumerador = null;
@@ -1455,7 +1454,7 @@ public class GrabaComprobanteRest {
             }
             if (!produmo.isEmpty()) {
                 //Comienzo con la transaccion de produmo
-              /* for (Lote l : listaLotes) {
+                /* for (Lote l : listaLotes) {
                  if (){
                         
                  }
@@ -2555,7 +2554,7 @@ public class GrabaComprobanteRest {
  
      Fin proceso graba FacCompras
      */
-    /*
+ /*
      Graba a Master de Sybase
      Author: Dario
     
@@ -3515,15 +3514,15 @@ public class GrabaComprobanteRest {
             long nroComp = nroCompTempCompleto;
             Integer tipoOperacion = 0;
             Integer tipoOp = factCab.getIdCteTipo().getIdCteTipo();
-            if (tipoOp == 69){
+            if (tipoOp == 69) {
                 //si es remito de compra
-                 tipoOperacion = 1;
-             }else if( tipoOp == 81){
-                 // si es remito devolucion de compra
-                  tipoOperacion = 2;
-               }else{
-                  tipoOperacion = factCab.getIdCteTipo().getcTipoOperacion();
-             }
+                tipoOperacion = 1;
+            } else if (tipoOp == 81) {
+                // si es remito devolucion de compra
+                tipoOperacion = 2;
+            } else {
+                tipoOperacion = factCab.getIdCteTipo().getcTipoOperacion();
+            }
             tipoOp = 0;
             Date fechaOperacion = factCab.getFechaEmision();
             Integer padronCodigo = 0;
@@ -3532,73 +3531,68 @@ public class GrabaComprobanteRest {
             String informaSn = "N";
             String pendienteSn = "S";
 
-           for (Produmo prod : produmo) {
-                
-               
-            
-                if (prod.getNroLote() == null){
-                   
-                    
-                }else{  
-                
-                FitoStockSybase fitoStockSybase = new FitoStockSybase(tipoOperacion.shortValue(), fechaOperacion, (Long) nroComp, prod.getItem());
-                fitoStockSybase.setArtCodigo(prod.getIdProductos().getCodProducto());
-                fitoStockSybase.setPadronCodigo(padronCodigo);
-                fitoStockSybase.setFitoGtin(prod.getIdProductos().getGtin());
-                fitoStockSybase.setEvId(Short.valueOf("0"));
-                if (prod.getGlnProovedor() == null){
-                    fitoStockSybase.setFitoGlnOrigen(BigDecimal.ZERO.longValue());
-                }else{
-                    fitoStockSybase.setFitoGlnOrigen(prod.getGlnProovedor().longValue());
-                }
-                
-               
-                fitoStockSybase.setFitoGlnDestino(BigDecimal.ZERO.longValue());
-                fitoStockSybase.setMotivoId(Short.valueOf("0"));
-                fitoStockSybase.setFitoMotivoDevolucion("");
-                fitoStockSybase.setFitoNroTransaccion(BigDecimal.ZERO.longValue());
-                fitoStockSybase.setObservaciones(observaciones);
-                fitoStockSybase.setOperadorCodigo(user.getUsuarioSybase());
-                fitoStockSybase.setDeposito(prod.getIdDepositos().getCodigoDep());
-                fitoStockSybase.setCosecha(Short.valueOf("0"));
-                fitoStockSybase.setPadronProveedor(padronProveedor);
-                fitoStockSybase.setNCantidad(prod.getCantidad());
-               
-               
-                for (Lote lot : lote) {
-                     Producto producto = productoFacade.find(prod.getIdProductos().getIdProductos());
-                    if (producto == null) {
-                        respuesta.setControl(AppCodigo.ERROR, "Error al cargar lote, el producto con id " + prod.getIdProductos().getIdProductos() + " no existe");
+            for (Produmo prod : produmo) {
+
+                if (prod.getNroLote() == null) {
+
+                } else {
+
+                    FitoStockSybase fitoStockSybase = new FitoStockSybase(tipoOperacion.shortValue(), fechaOperacion, (Long) nroComp, prod.getItem());
+                    fitoStockSybase.setArtCodigo(prod.getIdProductos().getCodProducto());
+                    fitoStockSybase.setPadronCodigo(padronCodigo);
+                    fitoStockSybase.setFitoGtin(prod.getIdProductos().getGtin());
+                    fitoStockSybase.setEvId(Short.valueOf("0"));
+                    if (prod.getGlnProovedor() == null) {
+                        fitoStockSybase.setFitoGlnOrigen(BigDecimal.ZERO.longValue());
+                    } else {
+                        fitoStockSybase.setFitoGlnOrigen(prod.getGlnProovedor().longValue());
                     }
-                    if (lot.getIdproductos().equals(producto) && producto.getTrazable() == true) {
-                         // item de produmo == a la posicion de angular
-                        //lot.getItem() == prod.getItem() 
-                        if ( producto.getTrazable() == true && prod.getItem() == lot.getItem()){
-                            fitoStockSybase.setFitoFeElaboracion(lot.getFechaElab());
-                            fitoStockSybase.setFitoFeVto(lot.getFechaVto());
-                            fitoStockSybase.setFitoNroLote(lot.getNroLote());
-                            fitoStockSybase.setFitoNroSerie(lot.getSerie());
-                            
+
+                    fitoStockSybase.setFitoGlnDestino(BigDecimal.ZERO.longValue());
+                    fitoStockSybase.setMotivoId(Short.valueOf("0"));
+                    fitoStockSybase.setFitoMotivoDevolucion("");
+                    fitoStockSybase.setFitoNroTransaccion(BigDecimal.ZERO.longValue());
+                    fitoStockSybase.setObservaciones(observaciones);
+                    fitoStockSybase.setOperadorCodigo(user.getUsuarioSybase());
+                    fitoStockSybase.setDeposito(prod.getIdDepositos().getCodigoDep());
+                    fitoStockSybase.setCosecha(Short.valueOf("0"));
+                    fitoStockSybase.setPadronProveedor(padronProveedor);
+                    fitoStockSybase.setNCantidad(prod.getCantidad());
+
+                    for (Lote lot : lote) {
+                        Producto producto = productoFacade.find(prod.getIdProductos().getIdProductos());
+                        if (producto == null) {
+                            respuesta.setControl(AppCodigo.ERROR, "Error al cargar lote, el producto con id " + prod.getIdProductos().getIdProductos() + " no existe");
                         }
-                         
-                    }else{
-                        
+                        if (lot.getIdproductos().equals(producto) && producto.getTrazable() == true) {
+                            // item de produmo == a la posicion de angular
+                            //lot.getItem() == prod.getItem() 
+                            if (producto.getTrazable() == true && prod.getItem() == lot.getItem()) {
+                                fitoStockSybase.setFitoFeElaboracion(lot.getFechaElab());
+                                fitoStockSybase.setFitoFeVto(lot.getFechaVto());
+                                fitoStockSybase.setFitoNroLote(lot.getNroLote());
+                                fitoStockSybase.setFitoNroSerie(lot.getSerie());
+
+                            }
+
+                        } else {
+
+                        }
+                        System.out.println(prod.getItem() + " <- produmo | lote -> " + lot.getItem() + " ----------> " + prod.getProdCodigo() + " | Lote: " + lot.getNroLote() + ", Serie: " + lot.getSerie());
                     }
-                    System.out.println(prod.getItem() + " <- produmo | lote -> " + lot.getItem() + " ----------> " + prod.getProdCodigo() + " | Lote: " + lot.getNroLote() + ", Serie: " + lot.getSerie());
+
+                    fitoStockSybase.setInformarSn(informaSn.charAt(0));
+                    fitoStockSybase.setPendienteSn(pendienteSn.charAt(0));
+                    paseFitoStock = paseFitoStock + 1;
+                    boolean transaccionSybaseFitoStock;
+                    transaccionSybaseFitoStock = fitoStockSybaseFacade.fitoStockSybaseNuevo(fitoStockSybase);
+                    //si la trnsaccion fallo devuelvo el mensaje
+                    if (!transaccionSybaseFitoStock) {
+                        return false;
+                    }
+
                 }
-                
-                fitoStockSybase.setInformarSn(informaSn.charAt(0));
-                fitoStockSybase.setPendienteSn(pendienteSn.charAt(0));
-                paseFitoStock = paseFitoStock + 1;
-                boolean transaccionSybaseFitoStock;
-                transaccionSybaseFitoStock = fitoStockSybaseFacade.fitoStockSybaseNuevo(fitoStockSybase);
-                //si la trnsaccion fallo devuelvo el mensaje
-                if (!transaccionSybaseFitoStock) {
-                    return false;
-                }
-          
             }
-           }    
             // SI SON REMITOS VAN ESTAS MARCAS
             System.out.println("::::::::: FIN  ----------------------> FitoStock Sybase() :: FitoStock pasado exitosamente !!! > ");
             return true;
@@ -3658,8 +3652,10 @@ public class GrabaComprobanteRest {
             String nombreEmpresa = accesoFacade.findByToken(token).getIdUsuario().getIdPerfil().getIdSucursal().getIdEmpresa().getDescripcion();
             String nombreSucursal = accesoFacade.findByToken(token).getIdUsuario().getIdPerfil().getIdSucursal().getNombre();
             String emailOrigen = parametro.get("KERNEL_SMTP_USER");
+            // Destinatarios de los mails
             String emailDestino = sisOperacionComprobante.getMail1();
             String nombreDestino = sisOperacionComprobante.getNombreApellidoParaMail1();
+            // Fin mails  Destinatarios
             String asunto = "Sistema de FacturaciÃ³n: Alta de " + cteTipo.getDescripcion();
             String detallePieComprobante = "";
             BigDecimal baseImponible = new BigDecimal(0);
@@ -3740,12 +3736,13 @@ public class GrabaComprobanteRest {
             try {
                 // fin armado del cuerpo
                 // String contenido = asunto+ " | Se ha agregado un nuevo comprobante | Emision: "+fechaEmision+" - Cuit: "+cuit+" -  Comprobante Nro: "+numeroFact+" - TC: "+tipoFact;
-                utilidadesFacade.enviarMailPdf(emailOrigen, nombreEmpresa + " : " + nombreSucursal, emailDestino, contenido, asunto, nombreDestino, bytes);
+            utilidadesFacade.enviarMailPdf(emailOrigen, nombreEmpresa + " : " + nombreSucursal, emailDestino, contenido, asunto, nombreDestino, bytes, sisOperacionComprobante);
+
             } catch (Exception ex) {
                 Logger.getLogger(GrabaComprobanteRest.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            System.out.println("No se envia mail");
+            System.out.println("No se pudo enviar los emails debido a un error inesperado !!!");
         }
     }
 
@@ -4151,7 +4148,6 @@ public class GrabaComprobanteRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Response pasaje(@HeaderParam("token") String token, @HeaderParam("idModulo") Integer idModulo, @Context HttpServletRequest request) throws NoSuchAlgorithmException, UnsupportedEncodingException, Exception {
         ServicioResponse respuesta = new ServicioResponse();
-        // Obtengo el body de la request
         System.out.println("<----- pasajes()");
         JsonObject jsonBody = Utils.getJsonObjectFromRequest(request);
         Boolean esPesificado = (Boolean) Utils.getKeyFromJsonObject("marcaPesificado", jsonBody, "boolean");
