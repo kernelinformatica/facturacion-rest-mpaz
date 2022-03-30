@@ -23,7 +23,8 @@
 OPPie.detalle as detallePie,
 OPPie.importeImpuesto as importePie,
 OPPie.alicuota as porcentajePie,
-OPPie.importeBase as baseImponible
+OPPie.importeBase as baseImponible,
+OPPie.numeroRetencion as numeroCompRetencion
 from OPPie
 where OPPie.idOpCab =$P{idOpCab}]]>
 	</queryString>
@@ -31,6 +32,7 @@ where OPPie.idOpCab =$P{idOpCab}]]>
 	<field name="importePie" class="java.math.BigDecimal"/>
 	<field name="porcentajePie" class="java.math.BigDecimal"/>
 	<field name="baseImponible" class="java.math.BigDecimal"/>
+	<field name="numeroCompRetencion" class="java.math.BigDecimal"/>
 	<variable name="subTotal" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{importePie}]]></variableExpression>
 	</variable>
@@ -41,102 +43,100 @@ where OPPie.idOpCab =$P{idOpCab}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
-		<band height="60">
+		<band height="63">
 			<staticText>
-				<reportElement x="2" y="25" width="130" height="13" uuid="7d799362-b208-41a9-9aa4-caffae519f2f"/>
+				<reportElement x="1" y="25" width="130" height="13" uuid="7d799362-b208-41a9-9aa4-caffae519f2f"/>
 				<textElement verticalAlignment="Top">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Neto:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="398" y="25" width="30" height="13" uuid="f5db9e54-d875-4cdf-a85a-ad65c0bed726">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Right" verticalAlignment="Top">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{moneda}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="434" y="25" width="78" height="13" uuid="a9f2f5b6-01f7-4286-8550-8c3161e8c376"/>
+				<reportElement x="433" y="25" width="78" height="13" uuid="a9f2f5b6-01f7-4286-8550-8c3161e8c376"/>
 				<textElement textAlignment="Right">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{bruto}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="4" y="1" width="297" height="14" uuid="a7275e94-36e2-44a3-a44a-e77239c891b3"/>
+				<reportElement x="3" y="1" width="297" height="14" uuid="a7275e94-36e2-44a3-a44a-e77239c891b3"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DETALLLE DE SUB TOTALES]]></text>
 			</staticText>
 			<line>
-				<reportElement x="2" y="41" width="510" height="1" uuid="efb3f2f9-dfd1-4957-8b4e-85476a4479a8">
+				<reportElement x="1" y="41" width="510" height="1" uuid="efb3f2f9-dfd1-4957-8b4e-85476a4479a8">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="3" y="21" width="510" height="1" uuid="9657780e-948a-44ec-824d-578f94341059">
+				<reportElement x="2" y="21" width="510" height="1" uuid="9657780e-948a-44ec-824d-578f94341059">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 			</line>
 			<staticText>
-				<reportElement x="452" y="2" width="59" height="13" uuid="0e9938f0-f72e-4b70-bf09-954a14911807"/>
+				<reportElement x="451" y="2" width="59" height="13" uuid="0e9938f0-f72e-4b70-bf09-954a14911807"/>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="179" y="45" width="24" height="13" uuid="f7c6ffa5-4f07-4da0-bdf7-fbd8c4d599e3"/>
+				<reportElement x="338" y="45" width="38" height="13" uuid="81b8842f-aba1-462c-9561-20de89bb6d3f"/>
 				<textElement textAlignment="Right" verticalAlignment="Top">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[ALIC]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="230" y="45" width="38" height="13" uuid="81b8842f-aba1-462c-9561-20de89bb6d3f"/>
-				<textElement textAlignment="Right" verticalAlignment="Top">
-					<font size="10" isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[BASE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="146" y="45" width="58" height="13" uuid="14222e28-a11b-444f-9a5d-f115b4adcdc8"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NRO COMP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="45" width="52" height="13" uuid="6c1474b9-d157-4658-8ea5-af1b81e70917"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Moneda]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="18" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="2" y="1" width="130" height="13" uuid="3928a440-1470-486c-8a42-3cf3500681c3"/>
+				<reportElement x="1" y="1" width="130" height="13" uuid="3928a440-1470-486c-8a42-3cf3500681c3"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{detallePie}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="435" y="2" width="78" height="13" uuid="17ae3868-6d68-4dd0-b4d8-3325d4b47925"/>
+				<reportElement x="133" y="2" width="70" height="13" uuid="3928a440-1470-486c-8a42-3cf3500681c3"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroCompRetencion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="2" width="78" height="13" uuid="17ae3868-6d68-4dd0-b4d8-3325d4b47925"/>
 				<textElement textAlignment="Right">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{importePie}.negate().setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="398" y="2" width="30" height="13" uuid="16bf0916-8768-4049-9e9e-5465f187ae54"/>
+				<reportElement x="402" y="2" width="30" height="13" uuid="16bf0916-8768-4049-9e9e-5465f187ae54"/>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{moneda}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="174" y="2" width="30" height="13" uuid="1953a317-9a3d-41db-b525-5834ee2b5f1e"/>
-				<textElement textAlignment="Right">
-					<font size="9" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{porcentajePie}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="220" y="2" width="48" height="13" uuid="0a496b3e-0536-4389-adcf-f3b20a44e67f"/>
+				<reportElement x="314" y="2" width="62" height="13" uuid="0a496b3e-0536-4389-adcf-f3b20a44e67f"/>
 				<textElement textAlignment="Right">
 					<font size="9" isBold="false"/>
 				</textElement>
@@ -150,7 +150,7 @@ where OPPie.idOpCab =$P{idOpCab}]]>
 	<summary>
 		<band height="68">
 			<staticText>
-				<reportElement x="2" y="7" width="494" height="53" uuid="c92cc201-1fe1-4ac7-9283-8c41395f6da2">
+				<reportElement x="3" y="10" width="494" height="53" uuid="c92cc201-1fe1-4ac7-9283-8c41395f6da2">
 					<printWhenExpression><![CDATA[$P{idCteTipo} == 72]]></printWhenExpression>
 				</reportElement>
 				<text><![CDATA[Recibí conforme

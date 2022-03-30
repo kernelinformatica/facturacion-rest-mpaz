@@ -22,9 +22,19 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>listadoCabecera.jasper</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/reportes/listadoCabecera.jasper</location>
+		</link>
+		<link>
 			<name>listadoCabecera.jrxml</name>
 			<type>1</type>
 			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/reportes/listadoCabecera.jrxml</location>
+		</link>
+		<link>
+			<name>ordenPagoFormaPago.jasper</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/ordenPagoFormaPago.jasper</location>
 		</link>
 		<link>
 			<name>ordenPagoFormaPago.jrxml</name>
@@ -32,9 +42,49 @@
 			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/ordenPagoFormaPago.jrxml</location>
 		</link>
 		<link>
+			<name>ordenPagoFormaPago_1.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/imagenes/ordenPagoFormaPago.jrxml</location>
+		</link>
+		<link>
+			<name>ordenPagoSubTotales.jasper</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/ordenPagoSubTotales.jasper</location>
+		</link>
+		<link>
 			<name>ordenPagoSubTotales.jrxml</name>
 			<type>1</type>
-			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/ordenPagoSubTotales.jrxml</location>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/imagenes/ordenPagoSubTotales.jrxml</location>
+		</link>
+		<link>
+			<name>reporteComprobante.jasper</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobante.jasper</location>
+		</link>
+		<link>
+			<name>reporteComprobante.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/sub-reportes/reporteComprobante.jrxml</location>
+		</link>
+		<link>
+			<name>reporteComprobanteOrdenPago.jasper</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobanteOrdenPago.jasper</location>
+		</link>
+		<link>
+			<name>reporteComprobanteOrdenPago.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobanteOrdenPago.jrxml</location>
+		</link>
+		<link>
+			<name>reporteComprobanteOrdenPago_1.jasper</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobanteOrdenPago.jasper</location>
+		</link>
+		<link>
+			<name>reporteComprobante_1.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobante.jrxml</location>
 		</link>
 	</linkedResources>
 </projectDescription>

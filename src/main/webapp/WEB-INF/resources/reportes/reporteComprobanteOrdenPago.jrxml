@@ -4,19 +4,12 @@
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FacturacionDev"/>
-	<subDataset name="Dataset1" uuid="4ea6a17a-0c41-41ec-bd97-705e9e5b6c65">
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-		<queryString>
-			<![CDATA[]]>
-		</queryString>
-	</subDataset>
 	<parameter name="idOpCab" class="java.lang.Integer"/>
 	<parameter name="pathImagen" class="java.lang.String"/>
 	<parameter name="codigoVerificador" class="java.lang.String"/>
 	<parameter name="prefijoEmpresa" class="java.lang.String"/>
-	<parameter name="copia" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT 
+		<![CDATA[Select 
 LPAD(SUBSTRING(OPCab.numero,1,length(OPCab.numero)-8),4,'0') as prefijoComprobante,
 SUBSTRING(OPCab.numero,-8) as numeroComprobante,
 OPCab.cuit as cuitCliente,
@@ -33,7 +26,6 @@ OPCab.idPadron AS ctactePadron,
 CteTipo.descCorta as descripcionCortaCteTipo,
 CteTipo.descripcion as descripcionCteTipo,
 'DOCUMENTO NO VALIDO COMO FACTURA'  as detalleReporte,
-Empresas.prefijoEmpresa as prefijoEmpresa,
 Empresas.nombre as nombreEmpresa,
 Empresas.descripcion as descripcionEmpresa,
 Empresas.domicilio as domicilioEmpresa,
@@ -111,7 +103,7 @@ OPCab.idOPCab = $P{idOpCab}]]>
 	<field name="detalleDifCotizacion" class="java.lang.String"/>
 	<field name="detalleIdIva" class="java.lang.String"/>
 	<field name="detalleIvaDifCotizacion" class="java.lang.String"/>
-	<field name="detalleIdFactCab" class="java.lang.String"/>
+	<field name="detalleIdFactCab" class="java.lang.Integer"/>
 	<field name="numeroFactura" class="java.lang.String"/>
 	<field name="numeroAfip" class="java.lang.String"/>
 	<field name="tipoComprobanteFactura" class="java.lang.String"/>
@@ -133,13 +125,6 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<imageExpression><![CDATA[$P{pathImagen} +"/"+$P{prefijoEmpresa}+".png"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="99" y="0" width="140" height="19" uuid="656c8afa-03d7-401f-b0fb-c10a36205161"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nombreEmpresa}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="140" y="61" width="90" height="10" uuid="c4ad6e9b-b5b1-496c-a3e4-317aabf5d63d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -149,13 +134,13 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<textFieldExpression><![CDATA[$F{domicilioEmpresa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="425" y="19" width="95" height="20" uuid="afed095b-b22f-477a-9d56-5295837174cd"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="500" y="19" width="54" height="20" uuid="afed095b-b22f-477a-9d56-5295837174cd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{numeroComprobante}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="452" y="40" width="94" height="20" uuid="57c4145c-2b3d-4491-8b00-6f7c5594068a"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="460" y="35" width="94" height="20" uuid="57c4145c-2b3d-4491-8b00-6f7c5594068a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fechaEmisionComprobante}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -175,26 +160,26 @@ OPCab.idOPCab = $P{idOpCab}]]>
 			</line>
 			<textField>
 				<reportElement x="361" y="0" width="194" height="19" uuid="b7585eb0-a752-4f74-a15b-1e0f405a2e16"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tipoOperacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="360" y="40" width="90" height="20" uuid="8fd878e9-7771-4489-b2e6-73495f84deac">
+				<reportElement x="410" y="35" width="50" height="20" uuid="8fd878e9-7771-4489-b2e6-73495f84deac">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Fecha Emision:]]></text>
+				<text><![CDATA[Emision:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="360" y="19" width="26" height="20" uuid="0b0431a1-ee18-4e33-9f90-45be1b7663bd">
+				<reportElement x="432" y="19" width="26" height="20" uuid="0b0431a1-ee18-4e33-9f90-45be1b7663bd">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nro:]]></text>
@@ -213,7 +198,7 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<textFieldExpression><![CDATA[$F{letra}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="386" y="19" width="33" height="20" uuid="31af72ab-4164-4266-9e37-a849e73f3d4c">
+				<reportElement x="465" y="19" width="33" height="20" uuid="31af72ab-4164-4266-9e37-a849e73f3d4c">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
@@ -266,14 +251,14 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<text><![CDATA[C.P:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="361" y="61" width="30" height="10" uuid="118b2831-70dd-4282-b565-8ba3d330b8c6"/>
+				<reportElement x="444" y="64" width="30" height="10" uuid="118b2831-70dd-4282-b565-8ba3d330b8c6"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<text><![CDATA[C.U.I.T:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="361" y="71" width="30" height="10" uuid="caa2c4a8-edab-427c-a363-710af22ef94d">
+				<reportElement x="444" y="74" width="30" height="10" uuid="caa2c4a8-edab-427c-a363-710af22ef94d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -282,7 +267,7 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<text><![CDATA[IVA:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="361" y="81" width="30" height="10" uuid="b85c390c-2deb-4975-96d6-aaae3ad9911e">
+				<reportElement x="444" y="84" width="30" height="10" uuid="b85c390c-2deb-4975-96d6-aaae3ad9911e">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -291,39 +276,46 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<text><![CDATA[II.BB:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="391" y="61" width="90" height="10" uuid="b2b58f0e-1196-48bf-9c58-482ea997dcc6"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="464" y="64" width="90" height="10" uuid="b2b58f0e-1196-48bf-9c58-482ea997dcc6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cuitEmpresa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="391" y="71" width="90" height="10" uuid="44743f1d-e1f7-48e4-95e5-22f88ccf52e7">
+				<reportElement x="464" y="74" width="90" height="10" uuid="44743f1d-e1f7-48e4-95e5-22f88ccf52e7">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{situacionIvaEmpresa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="391" y="81" width="90" height="10" uuid="c56e5620-697f-4578-b84c-49b45aa84c41">
+				<reportElement x="464" y="84" width="90" height="10" uuid="c56e5620-697f-4578-b84c-49b45aa84c41">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ingBrutosEmpresa}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="419" y="29" width="6" height="1" uuid="ea0ded61-fea8-4250-ad6d-0cd814f3c3fd"/>
+				<reportElement x="501" y="29" width="6" height="1" uuid="ea0ded61-fea8-4250-ad6d-0cd814f3c3fd"/>
 			</line>
+			<textField>
+				<reportElement x="102" y="4" width="137" height="46" uuid="9376a7c5-ab2d-4cdf-acc7-742effe0b189"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionEmpresa}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="64" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="69" height="15" uuid="9ec9c5dc-f324-4e38-8299-309738221566">
+				<reportElement x="0" y="7" width="69" height="15" uuid="9ec9c5dc-f324-4e38-8299-309738221566">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -333,51 +325,37 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<text><![CDATA[NOMBRE:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="30" width="101" height="15" uuid="a4ac74e3-ef9a-4d63-8e8f-e85f2b6026e8"/>
+				<reportElement x="1" y="37" width="101" height="15" uuid="a4ac74e3-ef9a-4d63-8e8f-e85f2b6026e8"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cta Cte:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="69" y="0" width="281" height="15" uuid="4fb3505b-0448-4397-874c-40a10632a161"/>
+				<reportElement x="69" y="7" width="281" height="15" uuid="4fb3505b-0448-4397-874c-40a10632a161"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombreCliente} + " " + ($F{apellido} != null ? $F{apellido} : " ")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="15" width="69" height="15" uuid="10d4dcf5-9a98-4535-bb2c-ab2c5c808686"/>
+				<reportElement x="0" y="22" width="69" height="15" uuid="10d4dcf5-9a98-4535-bb2c-ab2c5c808686"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[CUIT:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="69" y="15" width="281" height="15" uuid="49d5778f-53ae-40ea-875a-f1e62defbbd2"/>
+				<reportElement x="69" y="22" width="281" height="15" uuid="49d5778f-53ae-40ea-875a-f1e62defbbd2"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{cuitCliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="30" width="103" height="15" uuid="ad116f43-755d-4081-ba47-1d2a48210fdf"/>
+				<reportElement x="70" y="37" width="103" height="15" uuid="ad116f43-755d-4081-ba47-1d2a48210fdf"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ctaCtePadron}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="350" y="-1" width="101" height="15" uuid="d1a943e6-c11e-4e0c-923a-1300694a6bf6">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Moneda:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="451" y="-1" width="103" height="15" uuid="398abe69-95a4-47e5-9b62-1d03bcc66053"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{moneda}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="63" width="555" height="1" uuid="34803c1d-0884-462b-9c48-2a3510f54757"/>
@@ -385,20 +363,6 @@ OPCab.idOPCab = $P{idOpCab}]]>
 					<pen lineWidth="2.0" lineStyle="Solid"/>
 				</graphicElement>
 			</line>
-			<staticText>
-				<reportElement x="350" y="14" width="101" height="15" uuid="7b0a56a9-f274-4669-a135-7a95be5ad4b3">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Operacion:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="451" y="14" width="103" height="15" uuid="18fee689-0d8f-48b5-beb8-d84a49667879"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{tipoOperacion}]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -420,7 +384,7 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<text><![CDATA[TIPO COMP]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="403" y="0" width="76" height="12" backcolor="#D1D1D1" uuid="83aeda01-c2c4-492f-8170-93e584936d71">
+				<reportElement mode="Opaque" x="404" y="0" width="76" height="12" backcolor="#D1D1D1" uuid="83aeda01-c2c4-492f-8170-93e584936d71">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -515,9 +479,9 @@ OPCab.idOPCab = $P{idOpCab}]]>
 		</band>
 	</detail>
 	<lastPageFooter>
-		<band height="500" splitType="Stretch">
+		<band height="503" splitType="Stretch">
 			<subreport>
-				<reportElement x="10" y="100" width="530" height="66" uuid="b1f8703b-764f-4250-b7d8-feef82938d5b">
+				<reportElement x="1" y="185" width="529" height="105" uuid="b1f8703b-764f-4250-b7d8-feef82938d5b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<subreportParameter name="idOpCab">
@@ -530,14 +494,17 @@ OPCab.idOPCab = $P{idOpCab}]]>
 					<subreportParameterExpression><![CDATA[$F{moneda}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{pathImagen} +"/"+"ordenPagoFormaPago.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{pathImagen}+"/"+"ordenPagoFormaPago.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="10" y="200" width="530" height="56" uuid="e2fff46a-4c04-46d8-a067-d57700a211d7">
+				<reportElement x="7" y="300" width="520" height="100" uuid="e2fff46a-4c04-46d8-a067-d57700a211d7">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<subreportParameter name="idOpCab">
 					<subreportParameterExpression><![CDATA[$P{idOpCab}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idCteTipo">
+					<subreportParameterExpression><![CDATA[$F{idCteTipo}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="bruto">
 					<subreportParameterExpression><![CDATA[$V{bruto}]]></subreportParameterExpression>
@@ -545,8 +512,11 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<subreportParameter name="moneda">
 					<subreportParameterExpression><![CDATA[$F{moneda}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="cotDolar">
+					<subreportParameterExpression><![CDATA[$F{detalleCotDolarFact}]]></subreportParameterExpression>
+				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{pathImagen} +"/"+"ordenPagoSubTotales.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{pathImagen}+"/"+"ordenPagoSubTotales.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</lastPageFooter>

@@ -479,9 +479,9 @@ OPCab.idOPCab = $P{idOpCab}]]>
 		</band>
 	</detail>
 	<lastPageFooter>
-		<band height="500" splitType="Stretch">
+		<band height="503" splitType="Stretch">
 			<subreport>
-				<reportElement x="3" y="100" width="530" height="66" uuid="b1f8703b-764f-4250-b7d8-feef82938d5b">
+				<reportElement x="1" y="185" width="529" height="105" uuid="b1f8703b-764f-4250-b7d8-feef82938d5b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<subreportParameter name="idOpCab">
@@ -494,10 +494,10 @@ OPCab.idOPCab = $P{idOpCab}]]>
 					<subreportParameterExpression><![CDATA[$F{moneda}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{pathImagen} +"/"+"ordenPagoFormaPago.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{pathImagen}+"/"+"ordenPagoFormaPago.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="3" y="180" width="530" height="100" uuid="e2fff46a-4c04-46d8-a067-d57700a211d7">
+				<reportElement x="7" y="300" width="520" height="100" uuid="e2fff46a-4c04-46d8-a067-d57700a211d7">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<subreportParameter name="idOpCab">
@@ -516,7 +516,7 @@ OPCab.idOPCab = $P{idOpCab}]]>
 					<subreportParameterExpression><![CDATA[$F{detalleCotDolarFact}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{pathImagen} +"/"+"ordenPagoSubTotales.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{pathImagen}+"/"+"ordenPagoSubTotales.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</lastPageFooter>

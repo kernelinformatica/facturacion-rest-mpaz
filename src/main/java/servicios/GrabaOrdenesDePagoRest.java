@@ -128,7 +128,7 @@ import utils.Utils;
 @Stateless
 @Path("grabaOrdenesDePago")
 public class GrabaOrdenesDePagoRest {
-
+    
     @Inject
     Utils utilidadesFacade;
     @Inject
@@ -175,7 +175,7 @@ public class GrabaOrdenesDePagoRest {
     CtacteCategoriaFacade ctaCteCategoriaFacade;
     @Inject
     FacComprasFacade facComprasFacade;
-
+    
     @Inject
     SisOperacionComprobanteFacade sisOperacionComprobanteFacade;
     @Inject
@@ -186,7 +186,7 @@ public class GrabaOrdenesDePagoRest {
     PadronFacade padronFacade;
     @Inject
     ParametroGeneralFacade parametro;
-
+    
     @Inject
     MasterSybaseFacade masterSybaseFacade;
     @Inject
@@ -203,7 +203,7 @@ public class GrabaOrdenesDePagoRest {
     OrdenesPagosFormaPagoFacade ordenesPagosFormaPagoFacade;
     @Inject
     OrdenesPagosPieFacade ordenesPagosPieFacade;
-
+    
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -212,7 +212,7 @@ public class GrabaOrdenesDePagoRest {
         respuesta.setControl(AppCodigo.OK, "Servicio de Ordenes de Pago, fuciona correctamente.");
         return Response.status(Response.Status.OK).entity(respuesta.toJson()).build();
     }
-
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -227,7 +227,6 @@ public class GrabaOrdenesDePagoRest {
 
             //Obtengo los atributos del body
             //Datos de OpCab
-            
             Integer idOpCab = (Integer) Utils.getKeyFromJsonObject("idOpCab", jsonBody, "Integer");
             Integer idFactCab = (Integer) Utils.getKeyFromJsonObject("idFactCab", jsonBody, "Integer");
             Integer idCteTipo = (Integer) Utils.getKeyFromJsonObject("idCteTipo", jsonBody, "Integer");
@@ -279,7 +278,7 @@ public class GrabaOrdenesDePagoRest {
 
             //Busco el usuario
             Usuario user = usuarioFacade.getByToken(userToken);
-
+            
             if (idUsuarioAutorizante == null) {
                 respuesta.setControl(AppCodigo.ERROR, "Error, Usuario Autorizante nulo");
                 return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
@@ -291,7 +290,7 @@ public class GrabaOrdenesDePagoRest {
             if (user == null) {
                 respuesta.setControl(AppCodigo.ERROR, "Error, Usuario nulo");
                 return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
-
+                
             }
 
             //valido vencimiento token
@@ -354,7 +353,7 @@ public class GrabaOrdenesDePagoRest {
                 respuesta.setControl(AppCodigo.ERROR, "No existe la Moneda");
                 return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
             }
-             SisTipoOperacion sisTipoOperacion = sisTipoOperacionFacade.find(idSisTipoOperacion);
+            SisTipoOperacion sisTipoOperacion = sisTipoOperacionFacade.find(idSisTipoOperacion);
             //Pregunto si existe sisTipoOperacion
             if (sisTipoOperacion == null) {
                 respuesta.setControl(AppCodigo.ERROR, "No existe el tipo de operacion");
@@ -412,9 +411,9 @@ public class GrabaOrdenesDePagoRest {
                     if (ordenPagosCab == null) {
                         respuesta.setControl(AppCodigo.ERROR, "No existe Fact Cab");
                         return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
-                    }        
+                    }                    
                 }
-
+                
             } else {
                 respuesta.setControl(AppCodigo.ERROR, "No existe idNumero");
                 return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
@@ -447,7 +446,7 @@ public class GrabaOrdenesDePagoRest {
                     Integer idIva = (Integer) Utils.getKeyFromJsonObject("idIva", j.getAsJsonObject(), "Integer");
                     BigDecimal ivaDifContizacion = (BigDecimal) Utils.getKeyFromJsonObject("ivaDifContizacion", j.getAsJsonObject(), "BigDecimal");
                     Integer idFactCabComp = (Integer) Utils.getKeyFromJsonObject("idFactCabComp", j.getAsJsonObject(), "Integer");
-                   
+                    
                     if (importePesificado.intValue() == 0) {
                         System.out.println("da 0 esto " + importePesificado.intValue());
                     } else {
@@ -459,20 +458,19 @@ public class GrabaOrdenesDePagoRest {
                         respuesta.setControl(AppCodigo.ERROR, "Error al cargar detalles, algun campo esta vacio");
                         return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
                     }
-
+                    
                     if (idSisOperacionComprobante == null) {
-                        respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el pie de la orden, Comprobante no encontrado -> idSisOperacionComprobante: "+idSisOperacionComprobante);
+                        respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el pie de la orden, Comprobante no encontrado -> idSisOperacionComprobante: " + idSisOperacionComprobante);
                         return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
                     }
-
+                    
                     SisOperacionComprobante sisOperacionComprobante = sisOperacionComprobanteFacade.find(idSisOperacionComprobante);
                     System.out.println("sisOperacionComprobante: " + sisOperacionComprobante);
                     if (sisOperacionComprobante == null) {
-                       respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta , Comprobante no encontrado -> idSisOperacionComprobante: " + idSisOperacionComprobante);
+                        respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta , Comprobante no encontrado -> idSisOperacionComprobante: " + idSisOperacionComprobante);
                         return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
                     }
 
-                    
                     /////////////////////////////////////////////////////////
                     //Creo el factDetalle nuevo y seteo los valores
                     OrdenesPagosDetalle ordenesPagosDetalle = new OrdenesPagosDetalle();
@@ -485,19 +483,19 @@ public class GrabaOrdenesDePagoRest {
                     ordenesPagosDetalle.setDifCotizacion(difContizacion);
                     ordenesPagosDetalle.setIdIVA(idIva);
                     ordenesPagosDetalle.setDifCotizacion(difContizacion);
-
+                    
                     listaDetalles.add(ordenesPagosDetalle);
-
+                    
                 }
-
+                
             }
 
             // fin detalles
             //Termina el recorrido de la Grilla de comprobantes y empiezo con la de factFormaPago
             System.out.println("::::::::: grillaFormaPago ::::::::::::: -> " + grillaFormaPago);
-
+            
             if (ordenPagoFormaPago && grillaFormaPago != null) {
-
+                
                 for (JsonElement je : grillaFormaPago) {
                     Integer idOpFormaPago = (Integer) Utils.getKeyFromJsonObject("idOpFormaPago", je.getAsJsonObject(), "Integer");
                     //Integer idOPcab = (Integer) Utils.getKeyFromJsonObject("idOPCab", je.getAsJsonObject(), "Integer");
@@ -507,17 +505,17 @@ public class GrabaOrdenesDePagoRest {
                     BigDecimal numeroComp = (BigDecimal) Utils.getKeyFromJsonObject("numero", je.getAsJsonObject(), "BigDecimal");
                     String detalle = (String) Utils.getKeyFromJsonObject("detalle", je.getAsJsonObject(), "String");
                     //Pregunto si son nulos 
-                    if ( importe == null || idFormaPago == null || fechaAcreditacion == null || numeroComp == null || detalle == null) {
+                    if (importe == null || idFormaPago == null || fechaAcreditacion == null || numeroComp == null || detalle == null) {
                         respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta Forma de Pago, algun campo de la grilla es nulo");
                         return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
                     }
-
+                    
                     if (importe.compareTo(BigDecimal.ZERO) == 0) {
                         continue;
                     }
-
+                    
                     FormaPagoDet formaPagoDet = formaPagoDetFacade.getByidFormaPagoDet(idFormaPago);
-
+                    
                     if (formaPagoDet == null) {
                         respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta Forma de Pago, la forma de pago no existe");
                         return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
@@ -531,73 +529,56 @@ public class GrabaOrdenesDePagoRest {
                     opFpago.setFechaAcreditacion(fechaAcreditacion);
                     opFpago.setNumero(numeroComp.longValue());
                     opFpago.setDetalle(formaPagoDet.getDetalle());
+                    opFpago.setObservaciones(detalle);
                     listaFormaPago.add(opFpago);
                 }
             }
-            
-            
-             //Empiezo con la grilla de SubTotales para grabar ordenPagoPie
-                if (ordenPagoPie) {
-                    for (JsonElement je : grillaSubTotales) {
-                        Integer idImpuesto = (Integer) Utils.getKeyFromJsonObject("idImpuesto", je.getAsJsonObject(), "Integer");
-                        String detalle = (String) Utils.getKeyFromJsonObject("detalle", je.getAsJsonObject(), "String");
-                        BigDecimal alicuota = (BigDecimal) Utils.getKeyFromJsonObject("alicuota", je.getAsJsonObject(), "BigDecimal");
-                        BigDecimal importeBase = (BigDecimal) Utils.getKeyFromJsonObject("importeBase", je.getAsJsonObject(), "BigDecimal");
-                        BigDecimal importeImpuesto = (BigDecimal) Utils.getKeyFromJsonObject("importeImpuesto", je.getAsJsonObject(), "BigDecimal");
-                        BigDecimal numeroRetencion = (BigDecimal) Utils.getKeyFromJsonObject("numeroRetencion", je.getAsJsonObject(), "BigDecimal");
-                        String operador = (String) Utils.getKeyFromJsonObject("operador", je.getAsJsonObject(), "String");
-                        if (importeBase.equals(0)) {
-                            System.out.println("Error al llevar el importe Base, venia en 0, " + detalle);
-                        }
-                        if (importeImpuesto.equals(0)) {
-                            System.out.println("Error al llevar el importe Impuesto, venia en 0, " + detalle);
-                        }
-                        
-                        //Pregunto por los que no pueden ser Null
-                        if (detalle == null || importeBase == null || importeImpuesto == null ||  numeroRetencion == null) {
-                            respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el pie de la de la orden de pago, algun campo de la grilla es nulo");
-                            return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
-                        }
 
-                       
-                        //Creo el pie 
-                        
-                        OrdenesPagosPie ordenesPagosPie = new OrdenesPagosPie();
-                        ordenesPagosPie.setIdOPCab(ordenPagosCab);
-                        ordenesPagosPie.setIdImpuesto(idImpuesto);
-                        ordenesPagosPie.setDetalle(detalle);
-                        ordenesPagosPie.setAlicuota(alicuota);
-                        ordenesPagosPie.setImporteBase(importeBase);
-                        ordenesPagosPie.setImporteImpuesto(importeImpuesto);
-                        ordenesPagosPie.setNumeroRetencion(numeroRetencion.longValue());
-                        listaPie.add(ordenesPagosPie);
-
+            //Empiezo con la grilla de SubTotales para grabar ordenPagoPie
+            if (ordenPagoPie) {
+                for (JsonElement je : grillaSubTotales) {
+                    Integer idImpuesto = (Integer) Utils.getKeyFromJsonObject("idImpuesto", je.getAsJsonObject(), "Integer");
+                    String detalle = (String) Utils.getKeyFromJsonObject("detalle", je.getAsJsonObject(), "String");
+                    BigDecimal alicuota = (BigDecimal) Utils.getKeyFromJsonObject("alicuota", je.getAsJsonObject(), "BigDecimal");
+                    BigDecimal importeBase = (BigDecimal) Utils.getKeyFromJsonObject("importeBase", je.getAsJsonObject(), "BigDecimal");
+                    BigDecimal importeImpuesto = (BigDecimal) Utils.getKeyFromJsonObject("importeImpuesto", je.getAsJsonObject(), "BigDecimal");
+                    BigDecimal numeroRetencion = (BigDecimal) Utils.getKeyFromJsonObject("numeroRetencion", je.getAsJsonObject(), "BigDecimal");
+                    String operador = (String) Utils.getKeyFromJsonObject("operador", je.getAsJsonObject(), "String");
+                    if (importeBase.equals(0)) {
+                        System.out.println("Error al llevar el importe Base, venia en 0, " + detalle);
                     }
-                }
+                    if (importeImpuesto.equals(0)) {
+                        System.out.println("Error al llevar el importe Impuesto, venia en 0, " + detalle);
+                    }
 
-                // envio de mail 
-                SisOperacionComprobante sisOperacionComprobante = sisOperacionComprobanteFacade.find(idSisOperacionComprobante);
-                if (Boolean.TRUE.equals(sisOperacionComprobante.getEnviaMail())) {
-                    enviaMail = true;
-                } else if (Boolean.FALSE.equals(sisOperacionComprobante.getEnviaMail())) {
-                    enviaMail = false;
-                }
-                System.out.println("Verifico permiso para envio de mail (Alta de Comprobante) = " + sisOperacionComprobante.getEnviaMail());
+                    //Pregunto por los que no pueden ser Null
+                    if (detalle == null || importeBase == null || importeImpuesto == null || numeroRetencion == null) {
+                        respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta el pie de la de la orden de pago, algun campo de la grilla es nulo");
+                        return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
+                    }
 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+                    //Creo el pie 
+                    OrdenesPagosPie ordenesPagosPie = new OrdenesPagosPie();
+                    ordenesPagosPie.setIdOPCab(ordenPagosCab);
+                    ordenesPagosPie.setIdImpuesto(idImpuesto);
+                    ordenesPagosPie.setDetalle(detalle);
+                    ordenesPagosPie.setAlicuota(alicuota);
+                    ordenesPagosPie.setImporteBase(importeBase);
+                    ordenesPagosPie.setImporteImpuesto(importeImpuesto);
+                    ordenesPagosPie.setNumeroRetencion(numeroRetencion.longValue());
+                    listaPie.add(ordenesPagosPie);
+                    
+                }
+            }
+
+            // envio de mail 
+            SisOperacionComprobante sisOperacionComprobante = sisOperacionComprobanteFacade.find(idSisOperacionComprobante);
+            if (Boolean.TRUE.equals(sisOperacionComprobante.getEnviaMail())) {
+                enviaMail = true;
+            } else if (Boolean.FALSE.equals(sisOperacionComprobante.getEnviaMail())) {
+                enviaMail = false;
+            }
+            System.out.println("Verifico permiso para envio de mail (Alta de Comprobante) = " + sisOperacionComprobante.getEnviaMail());
 
 //            respuesta.setControl(AppCodigo.ERROR, "Error al cargar detalles, algun campo esta vacio");
 //            return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
@@ -608,7 +589,7 @@ public class GrabaOrdenesDePagoRest {
             respuesta.setControl(AppCodigo.ERROR, ex.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
         }
-
+        
     }
 
     /*
@@ -625,16 +606,16 @@ public class GrabaOrdenesDePagoRest {
     ) {
         ServicioResponse respuesta = new ServicioResponse();
         try {
-
+            
             OrdenesPagosPCab transaccion;
-
+            
             try {
                 transaccion = ordenesPagoCabFacade.setOrdenePagoCabNuevo(opPCab);
                 if (transaccion == null) {
                     respuesta.setControl(AppCodigo.ERROR, "No se pudo dar de alta la Cabecera, la transaccion es nula");
                     return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
                 } else {
-
+                    
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -689,13 +670,13 @@ public class GrabaOrdenesDePagoRest {
             }
             respuesta.setControl(AppCodigo.CREADO, "Orden de Pago creada con exito, con detalles (" + opPCab.getIdOPCab() + ")");
             return Response.status(Response.Status.CREATED).entity(respuesta.toJson()).build();
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("Error: " + ex.getMessage());
             respuesta.setControl(AppCodigo.ERROR, ex.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).entity(respuesta.toJson()).build();
         }
-
+        
     }
 }

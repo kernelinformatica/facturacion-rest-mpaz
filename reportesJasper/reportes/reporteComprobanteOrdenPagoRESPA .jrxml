@@ -3,8 +3,9 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteComprobanteOrdenPago" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Empty" uuid="4806e2f6-ab00-41d0-b74f-73434a7c5917">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FacturacionDev"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="idOpCab" class="java.lang.Integer"/>
+	<parameter name="pathSubReports" class="java.lang.String"/>
 	<parameter name="pathImagen" class="java.lang.String"/>
 	<parameter name="codigoVerificador" class="java.lang.String"/>
 	<parameter name="prefijoEmpresa" class="java.lang.String"/>
@@ -440,7 +441,7 @@ OPCab.idOPCab = $P{idOpCab}]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="19" splitType="Stretch">
+		<band height="622" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="50" height="15" uuid="8f6aa183-3768-4e48-bdd6-d2184d2ceeff"/>
 				<textElement verticalAlignment="Middle"/>
@@ -476,12 +477,8 @@ OPCab.idOPCab = $P{idOpCab}]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{numeroFactura}]]></textFieldExpression>
 			</textField>
-		</band>
-	</detail>
-	<lastPageFooter>
-		<band height="500" splitType="Stretch">
 			<subreport>
-				<reportElement x="3" y="100" width="530" height="66" uuid="b1f8703b-764f-4250-b7d8-feef82938d5b">
+				<reportElement x="30" y="300" width="500" height="105" uuid="b1f8703b-764f-4250-b7d8-feef82938d5b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<subreportParameter name="idOpCab">
@@ -494,10 +491,10 @@ OPCab.idOPCab = $P{idOpCab}]]>
 					<subreportParameterExpression><![CDATA[$F{moneda}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{pathImagen} +"/"+"ordenPagoFormaPago.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["ordenPagoFormaPago.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="3" y="180" width="530" height="100" uuid="e2fff46a-4c04-46d8-a067-d57700a211d7">
+				<reportElement x="20" y="430" width="496" height="100" uuid="e2fff46a-4c04-46d8-a067-d57700a211d7">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<subreportParameter name="idOpCab">
@@ -516,8 +513,11 @@ OPCab.idOPCab = $P{idOpCab}]]>
 					<subreportParameterExpression><![CDATA[$F{detalleCotDolarFact}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{pathImagen} +"/"+"ordenPagoSubTotales.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["ordenPagoSubTotales.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="270" splitType="Prevent"/>
 	</lastPageFooter>
 </jasperReport>
