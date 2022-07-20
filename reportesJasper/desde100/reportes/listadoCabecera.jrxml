@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listadoCabecera" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Error" uuid="4806e2f6-ab00-41d0-b74f-73434a7c5917">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<parameter name="pathImagen" class="java.lang.String"/>
+	<parameter name="empresa" class="java.lang.Integer"/>
+	<parameter name="modulo" class="java.lang.Integer"/>
+	<parameter name="tipo" class="java.lang.Integer"/>
+	<parameter name="numero" class="java.lang.Long"/>
+	<parameter name="fechaDesde" class="java.sql.Date"/>
+	<parameter name="fechaHasta" class="java.sql.Date"/>
+	<parameter name="producto" class="java.lang.Integer"/>
+	<parameter name="padCodigo" class="java.lang.Integer"/>
+	<parameter name="deposito" class="java.lang.Integer"/>
+	<parameter name="estado" class="java.lang.Integer"/>
+	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="idVendedor" class="java.lang.Integer"/>
+	<parameter name="idSisTipoOperacion" class="java.lang.Integer"/>
+	<parameter name="autorizada" class="java.lang.String"/>
+	<parameter name="productoDesde" class="java.lang.String"/>
+	<parameter name="productoHasta" class="java.lang.String"/>
+	<queryString language="plsql">
+		<![CDATA[call s_buscaComprobantesCabecera($P{empresa},$P{modulo},$P{tipo},$P{numero},$P{fechaDesde},$P{fechaHasta},$P{producto},$P{padCodigo}, $P{deposito},$P{estado},$P{idVendedor},$P{idSisTipoOperacion},$P{autorizada}, '0', $P{productoDesde}, $P{productoHasta});]]>
+	</queryString>
+	<field name="idFactCab" class="java.lang.Integer"/>
+	<field name="comprobante" class="java.lang.String"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="fechaEmision" class="java.sql.Date"/>
+	<field name="codigoPad" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="cuit" class="java.lang.String"/>
+	<field name="dolar" class="java.math.BigDecimal"/>
+	<field name="moneda" class="java.lang.String"/>
+	<field name="imputada" class="java.lang.String"/>
+	<field name="modulo" class="java.lang.String"/>
+	<field name="prefijoComprobante" class="java.lang.String"/>
+	<field name="numeroComprobante" class="java.lang.String"/>
+	<title>
+		<band height="61">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="61" uuid="88b052fb-0d6f-43d1-b99b-11bd396c90fc"/>
+				<subreportParameter name="empresa">
+					<subreportParameterExpression><![CDATA[$P{empresa}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="titulo">
+					<subreportParameterExpression><![CDATA[$P{titulo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="pathImagen">
+					<subreportParameterExpression><![CDATA[$P{pathImagen}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{pathImagen}+"/tituloReporte.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="44">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="44" uuid="f35dea0c-7c15-4361-b229-a5784bc83512">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="modulo">
+					<subreportParameterExpression><![CDATA[$P{modulo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tipo">
+					<subreportParameterExpression><![CDATA[$P{tipo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="numero">
+					<subreportParameterExpression><![CDATA[$P{numero}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fechaDesde">
+					<subreportParameterExpression><![CDATA[$P{fechaDesde}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fechaHasta">
+					<subreportParameterExpression><![CDATA[$P{fechaHasta}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="producto">
+					<subreportParameterExpression><![CDATA[$P{producto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="padCodigo">
+					<subreportParameterExpression><![CDATA[$P{padCodigo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="deposito">
+					<subreportParameterExpression><![CDATA[$P{deposito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="estado">
+					<subreportParameterExpression><![CDATA[$P{estado}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{pathImagen}+"/filtros.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement x="65" y="0" width="35" height="20" uuid="0972c8d8-a4a0-4da2-92ea-f55d1cd742c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Comp.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="60" height="20" uuid="1e9eb63f-cddd-4c5f-bc25-43c49776495a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Numero]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" uuid="446c70ce-46b8-4068-a38f-785b012694c7"/>
+			</line>
+			<staticText>
+				<reportElement x="100" y="0" width="50" height="20" uuid="9604f8b8-7085-4689-b3e5-28d01e12ada1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Fecha Emision]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="40" height="20" uuid="6fc95073-10fe-40a9-8725-ac9c5575fe35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Codigo Padron]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="0" width="170" height="20" uuid="210f2a8f-d063-4629-b968-d371856100d8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="0" width="60" height="20" uuid="77d3bc8d-b592-4791-bcd8-7e0f127017ad"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Cuit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="0" width="40" height="20" uuid="a2dc59c0-922d-4709-8b5b-d8ee15a28edc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Moneda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="50" height="20" uuid="5cd07aaf-4119-40bc-8e9a-370356c98ae4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Imputada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="510" y="0" width="45" height="20" uuid="1a422fc6-2278-48e1-83a9-29b04136379d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Modulo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField>
+				<reportElement x="65" y="0" width="35" height="10" uuid="68295796-52c0-441f-af6c-faf0e48ccc91"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comprobante}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="10" width="555" height="1" uuid="d55757b0-96ee-442d-a594-cc649cde918f"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="100" y="0" width="50" height="10" uuid="2e52b124-ba03-46f3-9f95-9a781af3025b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaEmision}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="40" height="10" uuid="1c3943df-d1a4-4474-854b-1057708ba4ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoPad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="0" width="170" height="10" uuid="2821099f-8fc5-428c-b722-f6e7dc1f3b75"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="0" width="60" height="10" uuid="333c9dd6-0f20-4e17-a098-4159c5dae868"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="0" width="40" height="10" uuid="f32bd38c-10e0-4b4e-a99e-eea0aec69cdc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{moneda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="0" width="50" height="10" uuid="882611a2-91e1-4e93-9fd6-87e11a159320"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{imputada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="510" y="0" width="45" height="10" uuid="d9b4c653-642c-4584-8f3c-6729d0050052"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modulo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="20" height="10" uuid="e55c786c-feba-491a-8aa9-4b25119e205e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prefijoComprobante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="0" width="40" height="10" uuid="9218aaaf-d325-4629-adb2-8651aa187de0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroComprobante}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

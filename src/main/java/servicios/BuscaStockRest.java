@@ -69,8 +69,9 @@ public class BuscaStockRest {
             Integer idRubro= (Integer) Utils.getKeyFromJsonObject("idRubro", jsonBody, "Integer");
             Integer idSubRubro = (Integer) Utils.getKeyFromJsonObject("idSubRubro", jsonBody, "Integer");
             Integer tipoEstado = (Integer) Utils.getKeyFromJsonObject("tipoEstado", jsonBody, "Integer");
-
-
+            // Le digo al store que ordenamiento quiero en los registros, por defecto es DESC, 
+            // para para el reporte jasper necesito que se ordene al revez)
+            Integer ordenamiento = 1; // 1 = DESC, 0 = ASC; 
             //valido que token no sea null
             if(token == null || token.trim().isEmpty()) {
                 respuesta.setControl(AppCodigo.ERROR, "Error, token vacio");
@@ -104,7 +105,7 @@ public class BuscaStockRest {
             List<Payload> stock = new ArrayList<>();
             if(tipo != null && tipo.equals("producto")) {
             //seteo el nombre del store
-            String noombreSP = "call s_buscaStock(?,?,?,?,?,?,?)";
+            String noombreSP = "call s_buscaStock(?,?,?,?,?,?,?,?)";
 
             //invoco al store
             CallableStatement callableStatement = this.utils.procedimientoAlmacenado(user, noombreSP);
@@ -127,6 +128,7 @@ public class BuscaStockRest {
             callableStatement.setInt(5, idDeposito);
             callableStatement.setInt(6, tipoEstado);                        
             callableStatement.setInt(7, idCteTipo);
+            callableStatement.setInt(8, 1);
             ResultSet rs = callableStatement.executeQuery();
             List<StockResponse> sr = new ArrayList<>();
                 while (rs.next()) {

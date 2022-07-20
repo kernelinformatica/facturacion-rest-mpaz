@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2018-11-09T12:43:17 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="filtrosStockProdcuto" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ce3a8601-a83a-4829-9a43-9ebb7a2f26b8">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="cteTipo" class="java.lang.Integer"/>
+	<parameter name="fechaHasta" class="java.sql.Date"/>
+	<parameter name="producto" class="java.lang.String"/>
+	<parameter name="deposito" class="java.lang.String"/>
+	<parameter name="estado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[Select 
+CteTipo.descCorta as descripcionCorta,
+Productos.descripcion as descripcionProducto,
+Depositos.descripcion as descripcionDepositos,
+SisEstados.descripcion as descripcionEstados
+from Productos
+left join CteTipo on Productos.idProductos = $P{cteTipo}
+left join Depositos on Depositos.idDepositos = $P{deposito} 
+left join SisEstados on SisEstados.idSisEstados = $P{estado}
+where Productos.idProductos =  $P{producto}]]>
+	</queryString>
+	<field name="descripcionCorta" class="java.lang.String"/>
+	<field name="descripcionProducto" class="java.lang.String"/>
+	<field name="descripcionDepositos" class="java.lang.String"/>
+	<field name="descripcionEstados" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="44">
+			<staticText>
+				<reportElement x="0" y="20" width="66" height="20" uuid="c8d31616-6206-4ac8-b5ca-59c95b2e618e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Hasta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="25" height="20" uuid="c9ec52e7-2169-4afa-a39f-9494e52e4285">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="0" width="50" height="20" uuid="bbc7487e-c9a5-4783-817f-4b435ee65847">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="23" width="50" height="20" uuid="a6a84b01-bcce-477f-b99f-58b672c5e8a6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deposito:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="0" width="40" height="20" uuid="8992d869-9dfc-4684-a9c5-cfe925bb2362">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="43" width="554" height="1" uuid="60075d97-bae5-4626-a6b6-2a0843e56c85"/>
+			</line>
+			<textField pattern="dd/MM/yyy">
+				<reportElement x="66" y="20" width="58" height="20" uuid="4593c293-ac9f-4861-b695-27bd5c41343e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{fechaHasta}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="25" y="0" width="25" height="20" uuid="05b1a212-43bd-4a2d-9204-028436219d75"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descripcionCorta}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="240" y="0" width="70" height="20" uuid="1fda2278-ec5a-4331-9966-c01690889f84"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionProducto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="240" y="23" width="70" height="20" uuid="69098d00-6bef-4139-810c-aebc62584843"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionDepositos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="400" y="0" width="146" height="20" uuid="1f2e091f-2d17-48e1-843c-f0d664c484bc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionEstados}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

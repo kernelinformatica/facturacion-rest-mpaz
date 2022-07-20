@@ -1,6 +1,11 @@
 eclipse.preferences.version=1
+encoding/filtros.jrxml=UTF-8
 encoding/listadoCabecera.jrxml=UTF-8
+encoding/listadoDetalles.jrxml=UTF-8
 encoding/ordenPagoFormaPago.jrxml=UTF-8
 encoding/ordenPagoFormaPago_1.jrxml=UTF-8
 encoding/ordenPagoSubTotales.jrxml=UTF-8
 encoding/reporteComprobanteOrdenPago.jrxml=UTF-8
+encoding/reporteComprobante_3.jrxml=UTF-8
+encoding/reporteComprobante_4.jrxml=UTF-8
+encoding/resumenCtaCte.jrxml=UTF-8

@@ -12,7 +12,6 @@
     <class>entidades.CerealSisaSybase</class>
     <class>entidades.Cereales</class>
     <class>entidades.Concepto</class>
-    <class>entidades.CondIva</class>
     <class>entidades.ContPlanCuenta</class>
     <class>entidades.Contrato</class>
     <class>entidades.ContratoDet</class>
@@ -102,5 +101,25 @@
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
+  </persistence-unit>
+   <persistence-unit name="ar.com.kernel_FacturacionLib_ejb_0.1alphaPUSybase" transaction-type="JTA">
+    <jta-data-source>jdbc/demo</jta-data-source>
+    <class>entidades.CondIva</class>
+    <class>entidades.Padron</class>
+    <class>entidades.ContPlanCuenta</class>
+    <class>entidades.FacComprobante</class>
+    <class>entidades.CtacteCategoria</class>
+    <class>entidades.MasterSybase</class>
+    <class>entidades.FacComprasSybase</class>
+    <class>entidades.CerealSisaSybase</class>
+    <class>entidades.ParametrosFacSybase</class>
+    <class>entidades.FacVentasSybase</class>
+    <class>entidades.CanjesDocumentoSybase</class>
+    <class>entidades.FacArticulosSybase</class>
+    <class>entidades.FacPreciosSybase</class>
+    <class>entidades.FitoStockSybase</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <properties/>
   </persistence-unit>
 </persistence>

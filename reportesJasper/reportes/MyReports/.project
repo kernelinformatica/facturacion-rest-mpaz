@@ -22,6 +22,16 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>filtros.jasper</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/imagenes/filtros.jasper</location>
+		</link>
+		<link>
+			<name>filtros.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/imagenes/filtros.jrxml</location>
+		</link>
+		<link>
 			<name>listadoCabecera.jasper</name>
 			<type>1</type>
 			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/reportes/listadoCabecera.jasper</location>
@@ -30,6 +40,21 @@
 			<name>listadoCabecera.jrxml</name>
 			<type>1</type>
 			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/reportes/listadoCabecera.jrxml</location>
+		</link>
+		<link>
+			<name>listadoCabecera_1.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/listadoCabecera.jrxml</location>
+		</link>
+		<link>
+			<name>listadoDetalles.jasper</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/reportes/listadoDetalles.jasper</location>
+		</link>
+		<link>
+			<name>listadoDetalles.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/reportes/listadoDetalles.jrxml</location>
 		</link>
 		<link>
 			<name>ordenPagoFormaPago.jasper</name>
@@ -85,6 +110,31 @@
 			<name>reporteComprobante_1.jrxml</name>
 			<type>1</type>
 			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobante.jrxml</location>
+		</link>
+		<link>
+			<name>reporteComprobante_2.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/desde100/reporteComprobante.jrxml</location>
+		</link>
+		<link>
+			<name>reporteComprobante_3.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/SistemasWeb/Angular/kernel/facturacion-app-mpaz/jasper/reportes/reporteComprobante.jrxml</location>
+		</link>
+		<link>
+			<name>reporteComprobante_4.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/desde100/reportes/reporteComprobante.jrxml</location>
+		</link>
+		<link>
+			<name>reporteComprobante_5.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/desde100/reportes/reporteComprobante.jrxml</location>
+		</link>
+		<link>
+			<name>resumenCtaCte.jasper</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/GestAgroWebExtranet/src/main/webapp/resources/reportes/reportes/resumenCtaCte.jasper</location>
 		</link>
 	</linkedResources>
 </projectDescription>
