@@ -124,7 +124,7 @@ public class BuscaComprobanteRest {
             //seteo el nombre del store cabecera
             String nombreSP = "call s_buscaComprobantesCabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             
-            //seteo el nombre del store detalle
+            //seteo el nombre del store detalledepende 
             String nombreSPDetalle = "call s_buscaComprobantesDetalles(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             
             //invoco al store

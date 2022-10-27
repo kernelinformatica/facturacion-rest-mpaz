@@ -106,6 +106,7 @@ public class PendientesCancelarRest {
             
             // Obtengo los atributos del body
             Integer cteTipo = (Integer) Utils.getKeyFromJsonObject("cteTipo", jsonBody, "Integer");
+            Integer cteTipoSolicitante = (Integer) Utils.getKeyFromJsonObject("cteTipoSolicitante", jsonBody, "Integer");
             BigDecimal facNumero = (BigDecimal) Utils.getKeyFromJsonObject("facNumero", jsonBody, "BigDecimal");
             Integer codigoProv = (Integer) Utils.getKeyFromJsonObject("codigoProv", jsonBody, "Integer");
             Integer pendiente = (Integer) Utils.getKeyFromJsonObject("pendiente", jsonBody, "Integer");
@@ -186,7 +187,7 @@ public class PendientesCancelarRest {
             }
                    
             //seteo el nombre del store
-            String noombreSP = "call s_comprobantesPendientes(?,?,?,?,?,?,?,?,?,?,?)";
+            String noombreSP = "call s_comprobantesPendientes(?,?,?,?,?,?,?,?,?,?,?,?)";
             
             //invoco al store
             CallableStatement callableStatement = this.utils.procedimientoAlmacenado(user, noombreSP);
@@ -207,7 +208,7 @@ public class PendientesCancelarRest {
             callableStatement.setInt(9,idMoneda);
             callableStatement.setInt(10,idSisTipoOperacion);
             callableStatement.setInt(11,idListaPrecio);
-            
+            callableStatement.setInt(12,cteTipoSolicitante);
             ResultSet rs = callableStatement.executeQuery();
             List<Payload> pendientes = new ArrayList<>();
                 while (rs.next()) {

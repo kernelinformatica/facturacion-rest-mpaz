@@ -3,15 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ar.com.kernel</groupId>
-    <artifactId>facturacionrest-maximopaz</artifactId>
+    <artifactId>facturacionrest-margarita</artifactId>
     <version>0.1alpha</version>
     <packaging>war</packaging>
 
-    <name>FacturacionRest-MaximoPaz</name>
+    <name>FacturacionRest</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
     
     <dependencies>
@@ -44,8 +45,8 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FacturacionLib</artifactId>
-            <version>${project.version}</version>
+            <artifactId>FacturacionLibMarga</artifactId>
+            <version>0.1-margarita-alpha</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -83,6 +84,7 @@
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
+                    <showDeprecation>false</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>
@@ -120,5 +122,5 @@
             </plugin>
         </plugins>
     </build>
-
+    <description>Sistema de Facturacion Margarita</description>
 </project>

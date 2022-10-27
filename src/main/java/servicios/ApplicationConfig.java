@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
         resources.add(servicios.BuscaCerealesRest.class);
         resources.add(servicios.BuscaComprobanteAnticipadoRest.class);
         resources.add(servicios.BuscaComprobanteRest.class);
+        resources.add(servicios.BuscaComprobantesBinnamicRest.class);
         resources.add(servicios.BuscaCotizacionRest.class);
         resources.add(servicios.BuscaListaPrecio.class);
         resources.add(servicios.BuscaLote.class);
@@ -99,6 +100,7 @@ public class ApplicationConfig extends Application {
         resources.add(servicios.SisUnidadRest.class);
         resources.add(servicios.SubRubroRest.class);
         resources.add(servicios.SucursalRest.class);
+        resources.add(servicios.TesterRest.class);
         resources.add(servicios.TiposOpDepositosRest.class);
         resources.add(servicios.UltimoCodigoProdRest.class);
         resources.add(servicios.UsuarioRest.class);

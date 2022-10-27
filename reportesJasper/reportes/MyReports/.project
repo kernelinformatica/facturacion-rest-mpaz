@@ -112,29 +112,19 @@
 			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/reportes/reporteComprobante.jrxml</location>
 		</link>
 		<link>
-			<name>reporteComprobante_2.jrxml</name>
-			<type>1</type>
-			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/desde100/reporteComprobante.jrxml</location>
-		</link>
-		<link>
 			<name>reporteComprobante_3.jrxml</name>
 			<type>1</type>
 			<location>E:/Dario/Proyectos/SistemasWeb/Angular/kernel/facturacion-app-mpaz/jasper/reportes/reporteComprobante.jrxml</location>
 		</link>
 		<link>
-			<name>reporteComprobante_4.jrxml</name>
-			<type>1</type>
-			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/desde100/reportes/reporteComprobante.jrxml</location>
-		</link>
-		<link>
-			<name>reporteComprobante_5.jrxml</name>
-			<type>1</type>
-			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-rest/facturacion-rest/reportesJasper/desde100/reportes/reporteComprobante.jrxml</location>
-		</link>
-		<link>
 			<name>resumenCtaCte.jasper</name>
 			<type>1</type>
 			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/GestAgroWebExtranet/src/main/webapp/resources/reportes/reportes/resumenCtaCte.jasper</location>
+		</link>
+		<link>
+			<name>stockInventario.jrxml</name>
+			<type>1</type>
+			<location>E:/Dario/Proyectos/JavaWeb/RepoGit/WebServicesRest/facturacion-margarita-rest/reportesJasper/reportes/stockInventario.jrxml</location>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -72,7 +72,8 @@ public class UsuarioRest {
     @Path("/{usuario}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response auth(@PathParam("usuario") String cuenta, @HeaderParam("clave") String clave, @Context HttpServletRequest request) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public Response auth(@PathParam("usuario") String cuenta, @HeaderParam("clave") String clave, 
+            @Context HttpServletRequest request) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         ServicioResponse respuesta = new ServicioResponse();
         
         //Valido los datos de ingreso
